@@ -9,10 +9,11 @@ Tauler::Tauler()
     {
         for (int columna = 0; columna < MAX_COL; columna++)
         {
-            m_tauler[fila][columna] = ColorFigura::NO_COLOR;
+            m_tauler[fila][columna] = ColorFigura::COLOR_NEGRE;
         }
     }
 }
+
 void Tauler::mostraTauler()
 {
     for (int fila = 0; fila < MAX_FILA; fila++)
@@ -24,6 +25,7 @@ void Tauler::mostraTauler()
         cout << endl;
     }
 }
+
 bool Tauler::dins(int fila, int columna)
 {
     return fila >= 0 && fila < MAX_FILA&& columna >= 0 && columna < MAX_COL;
@@ -41,28 +43,24 @@ bool Tauler::girCorrecte(Figura figura, DireccioGir gir)
         for (int j = 0; j < MAX_COL; j++)
         {
             auxiliar.setTauler(i, j, m_tauler[i][j]);
-            celaEsFigura.setTauler(i, j, NO_COLOR);
+            celaEsFigura.setTauler(i, j, COLOR_NEGRE);
         }
-    }
-
-    //2n girem la figura en funcio de la direccio del gir
-    if (gir == GIR_HORARI)
-    {
-        figura.turnHorari();
-    }
-    else
-    {
-        figura.turnAntiHorari();
     }
 
     //3er actualitzem els valor dels espais q pasarien a ser ocupats per la figura en el tauler en girar
-    for (int i = 0; i < MAX_ALCADA; i++)
+    int fila = 0;
+    int col = 0;
+
+    for (int i = figura.getPosFRef(); i < figura.getPosFRef() + MAX_ALCADA; i++)
     {
-        for (int c = 0; c < MAX_AMPLADA; c++)
+        col = 0;
+        for (int c = figura.getPosCRef(); c < figura.getPosCRef() + figura.getAmplada(); c++)
         {
-            auxiliar.setTauler(i + figura.getPosFRef(), c + figura.getPosCRef(), figura.getFigura(i, c));//generar la matriz auxiliar con la figura ya girada
-            celaEsFigura.setTauler(i + figura.getPosFRef(), c + figura.getPosCRef(), figura.getFigura(i, c));//generar tauler solo con matriz girada para cerciorarnos de que la colision no es detectada con elementos de la propia matriz figura
+            auxiliar.setTauler(i, c, figura.getFigura(fila, col));//generar la matriz auxiliar con la figura ya girada
+            celaEsFigura.setTauler(i, c, figura.getFigura(fila, col));//generar tauler solo con matriz girada para cerciorarnos de que la colision no es detectada con elementos de la propia matriz figura
+            col++;
         }
+        fila++;
     }
     auxiliar.mostraTauler();
     cout << endl;
@@ -74,7 +72,7 @@ bool Tauler::girCorrecte(Figura figura, DireccioGir gir)
     {
         while (!xoc && c < MAX_COL)
         {
-            if ((auxiliar.getTauler(f, c) != NO_COLOR && celaEsFigura.getTauler(f, c) != NO_COLOR) && (getTauler(f, c) != NO_COLOR))//la posicio del tauler amb la figura girada correspon a la la figura girada, pero al tauler original aquesta posicio NO estava buida
+            if ((auxiliar.getTauler(f, c) != COLOR_NEGRE && celaEsFigura.getTauler(f, c) != COLOR_NEGRE) && (getTauler(f, c) != COLOR_NEGRE))//la posicio del tauler amb la figura girada correspon a la la figura girada, pero al tauler original aquesta posicio NO estava buida
             {
                 xoc = true;
             }
@@ -84,6 +82,7 @@ bool Tauler::girCorrecte(Figura figura, DireccioGir gir)
     }
     return xoc;
 }
+
 bool Tauler::ocupada(Figura figura, int direccio)
 {
     //genera matriz auxiliar
@@ -96,17 +95,17 @@ bool Tauler::ocupada(Figura figura, int direccio)
         for (int j = 0; j < MAX_COL; j++)
         {
             auxiliar.setTauler(i, j, m_tauler[i][j]);
-            celaEsFigura.setTauler(i, j, NO_COLOR);
+            celaEsFigura.setTauler(i, j, COLOR_NEGRE);
         }
     }
 
     //2n actualitzem els valor dels espais q pasarien a ser ocupats per la figura en el tauler en desplacarse a la dreta(dir=1) o esquerra(dir=-1)
-    for (int i = 0; i < MAX_ALCADA; i++)
+    for (int i = figura.getPosFRef(); i < figura.getPosFRef() + MAX_ALCADA; i++)
     {
-        for (int c = 0; c < MAX_AMPLADA; c++)
+        for (int c = figura.getPosCRef(); c < figura.getPosCRef() + figura.getAmplada(); c++)
         {
-            auxiliar.setTauler(i + figura.getPosFRef(), c + figura.getPosCRef() + (direccio), figura.getFigura(i, c));//el "+1" es para generar la matriz auxiliar con la figura ya bajada
-            celaEsFigura.setTauler(i + figura.getPosFRef(), c + figura.getPosCRef() + (direccio), figura.getFigura(i, c));//generar tauler solo con matriz bajada para cerciorarnos de que la colision no es detectada con elementos de la propia matriz figura
+            auxiliar.setTauler(i, c + (direccio), figura.getFigura(i, c));//el "+1" es para generar la matriz auxiliar con la figura ya bajada
+            celaEsFigura.setTauler(i, c + (direccio), figura.getFigura(i, c));//generar tauler solo con matriz bajada para cerciorarnos de que la colision no es detectada con elementos de la propia matriz figura
         }
     }
 
@@ -118,7 +117,7 @@ bool Tauler::ocupada(Figura figura, int direccio)
     {
         while (!ocupada && c < MAX_COL)
         {
-            if ((!dins(f, c + (direccio)) || (auxiliar.getTauler(f, c + (direccio)) != NO_COLOR && celaEsFigura.getTauler(f, c + 1) == NO_COLOR)))
+            if ((!dins(f, c + (direccio)) || (auxiliar.getTauler(f, c + (direccio)) != COLOR_NEGRE && celaEsFigura.getTauler(f, c + 1) == COLOR_NEGRE)))
             {
                 ocupada = true;
             }
@@ -148,17 +147,17 @@ bool Tauler::colisiona(Figura figura)//ultimos cambios
         for (int j = 0; j < MAX_COL; j++)
         {
             auxiliar.setTauler(i, j, m_tauler[i][j]);
-            celaEsFigura.setTauler(i, j, NO_COLOR);
+            celaEsFigura.setTauler(i, j, COLOR_NEGRE);
         }
     }
 
     //2n actualitzem els valor dels espais q pasarien a ser ocupats per la figura en el tauler en desplaçarse cap avall
-    for (int i = 0; i < MAX_ALCADA; i++)
+    for (int i = figura.getPosFRef(); i < figura.getPosFRef() + MAX_ALCADA; i++)
     {
-        for (int c = 0; c < MAX_AMPLADA; c++)
+        for (int c = figura.getPosCRef(); c < figura.getPosCRef() + MAX_AMPLADA; c++)
         {
-            auxiliar.setTauler(i + figura.getPosFRef() + 1, c + figura.getPosCRef(), figura.getFigura(i, c));//el "+1" es para generar la matriz auxiliar con la figura ya bajada
-            celaEsFigura.setTauler(i + figura.getPosFRef() + 1, c + figura.getPosCRef(), figura.getFigura(i, c));//generar tauler solo con matriz bajada para cerciorarnos de que la colision no es detectada con elementos de la propia matriz figura
+            auxiliar.setTauler(i, c, figura.getFigura(i, c));//el "+1" es para generar la matriz auxiliar con la figura ya bajada
+            celaEsFigura.setTauler(i, c, figura.getFigura(i, c));//generar tauler solo con matriz bajada para cerciorarnos de que la colision no es detectada con elementos de la propia matriz figura
         }
     }
 
@@ -171,9 +170,9 @@ bool Tauler::colisiona(Figura figura)//ultimos cambios
         c = 0;
         while (!colisiona && c < MAX_COL)
         {
-            if (auxiliar.getTauler(f, c) != NO_COLOR && celaEsFigura.getTauler(f, c) != NO_COLOR)//&& Cel·laEsFigura[f][c] == 1
+            if (auxiliar.getTauler(f, c) != COLOR_NEGRE && celaEsFigura.getTauler(f, c) != COLOR_NEGRE)//&& Cel·laEsFigura[f][c] == 1
             {
-                if (auxiliar.getTauler(f + 1, c) != NO_COLOR && celaEsFigura.getTauler(f, c) == NO_COLOR)
+                if (auxiliar.getTauler(f + 1, c) != COLOR_NEGRE && celaEsFigura.getTauler(f, c) == COLOR_NEGRE)
                 {
                     colisiona = true;
                 }
@@ -191,7 +190,7 @@ void Tauler::eliminarFila(int fila)//si o si estan bien
 {
     for (int j = 0; j < MAX_COL; j++)
     {
-        m_tauler[fila][j] = NO_COLOR;
+        m_tauler[fila][j] = COLOR_NEGRE;
     }
 }
 void Tauler::desplazarFilasSuperiores(int fila)//si o si estan bien
@@ -205,7 +204,7 @@ void Tauler::desplazarFilasSuperiores(int fila)//si o si estan bien
     }
     for (int j = 0; j < MAX_COL; j++)
     {
-        m_tauler[0][j] = NO_COLOR;
+        m_tauler[0][j] = COLOR_NEGRE;
     }
 }
 
@@ -215,7 +214,7 @@ int Tauler::contarBloquesEnFila(int fila)//si o si estan bien
 
     for (int j = 0; j < MAX_COL; j++)
     {
-        if (m_tauler[fila][j] != NO_COLOR)
+        if (m_tauler[fila][j] != COLOR_NEGRE)
         {
             contadorBlocs++;
         }
@@ -225,7 +224,6 @@ int Tauler::contarBloquesEnFila(int fila)//si o si estan bien
 int Tauler::eliminaFila()//si o si estan bien
 {
     bool elimina = false;
-    int filaEliminada;
     int nfilesEliminades = 0;
 
     for (int i = 0; i < MAX_FILA; i++)
@@ -235,13 +233,12 @@ int Tauler::eliminaFila()//si o si estan bien
         if (contadorBlocs == MAX_COL)
         {
             elimina = true;
-            filaEliminada = i;
             break;
         }
         if (elimina)
         {
-            eliminarFila(filaEliminada);
-            desplazarFilasSuperiores(filaEliminada);
+            eliminarFila(i);
+            desplazarFilasSuperiores(i);
             nfilesEliminades++;
         }
     }

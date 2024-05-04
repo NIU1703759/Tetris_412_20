@@ -46,105 +46,82 @@ using namespace std;
 void Joc::inicialitza(const string& nomFitxer)
 {
 	ifstream fitxer;
-	TipusFigura tipus;
-	ColorFigura color, casillas;
-	int casillas_int;
 
 	fitxer.open(nomFitxer);
 
 	if (fitxer.is_open())
 	{
-		int tipus_int, fila, columna, gir;
 
-		//asignaació dels 4 primers valors corresponents a la figura inicial
-		fitxer >> tipus_int >> fila >> columna >> gir;
+		ifstream fitxer;
+		TipusFigura tipus;
+		ColorFigura color, casillas;
+		int casillas_int;
 
-		fila--;
-		columna--;
+		fitxer.open(nomFitxer);
 
-		tipus = TipusFigura(tipus_int);
-		color = ColorFigura(tipus_int);
-
-		//omplim figura
-		m_figura.setPosF(fila);
-		m_figura.setPosC(columna);
-		m_figura.setForma(tipus);
-		m_figura.setColor(color);
-		m_figura.setGir(gir);
-		m_figura.incialitzaFigura(tipus, color);
-
-		//escribim tauler (sense la figura)
-		for (int f = 0; f < MAX_FILA; f++)
+		if (fitxer.is_open())
 		{
-			for (int c = 0; c < MAX_COL; c++)
-			{
-				fitxer >> casillas_int;
-				casillas = ColorFigura(casillas_int);
-				m_tauler.setTauler(f, c, casillas);
-			}
-		}
+			int tipus_int, fila, columna, gir;
 
-		//ampliquem gir de la figura i comprovem que es valid
-		bool gir_correcte = true;
-		int i = 0;
-		while (gir_correcte && i < gir % 4)
-		{
-			gir_correcte = m_tauler.girCorrecte(m_figura, GIR_HORARI);
+			//asignaació dels 4 primers valors corresponents a la figura inicial
+			fitxer >> tipus_int >> fila >> columna >> gir;
 
-			if (gir_correcte)
+			tipus = TipusFigura(tipus_int);
+			color = ColorFigura(tipus_int);
+
+			//omplim figura
+			m_figura.setPosF(fila);
+			m_figura.setPosC(columna);
+			m_figura.setGir(gir);
+			m_figura.incialitzaFigura(tipus, color);
+
+			//ampliquem gir de la figura
+			for (int i = 0; i < gir % 4; i++)
 			{
 				m_figura.turnHorari();
-				i++;
 			}
-		}
-		if (gir_correcte)//implementem girs nomes si son valids
-		{
-			for (int f = 0; f < MAX_ALCADA; f++)
+
+			//escribim tauler (sense la figura)
+			for (int f = 0; f < MAX_FILA; f++)
 			{
-				for (int c = 0; c < MAX_AMPLADA; c++)
+				for (int c = 0; c < MAX_COL; c++)
 				{
-					m_tauler.setTauler(f + m_figura.getPosFRef(), c + m_figura.getPosCRef(), m_figura.getFigura(f, c));
+					fitxer >> casillas_int;
+					casillas = ColorFigura(casillas_int);
+					m_tauler.setTauler(f, c, casillas);
 				}
 			}
+			fitxer.close();
 		}
-		else
-		{
-			cout << "ERROR: GIR INCORRECTE" << endl;
-		}
-
-		m_tauler.mostraTauler();//ultimos cambios
-
 	}
-	fitxer.close();
 }
+
 
 bool Joc::giraFigura(DireccioGir direccio)
 {
-	bool xoc;
+	bool xoc = false;
 
+	//comprovacio xoc
 	if (direccio == GIR_HORARI)
 	{
-		xoc = m_tauler.girCorrecte(m_figura, direccio);
-		if (!xoc)
-		{
-			m_figura.turnHorari();
-		}
-
+		m_figura.turnHorari();
 	}
-	else
+	if (direccio == GIR_ANTI_HORARI)
 	{
-		xoc = m_tauler.girCorrecte(m_figura, direccio);
-		if (!xoc)
+		m_figura.turnAntiHorari();
+	}
+
+	xoc = m_tauler.girCorrecte(m_figura, direccio);
+
+	if (xoc)
+	{
+		if (direccio == GIR_HORARI)
 		{
 			m_figura.turnAntiHorari();
 		}
-	}
-
-	for (int f = 0; f < MAX_ALCADA; f++)
-	{
-		for (int c = 0; c < MAX_AMPLADA; c++)
+		if (direccio == GIR_ANTI_HORARI)
 		{
-			m_tauler.setTauler(f + m_figura.getPosFRef(), c + m_figura.getPosCRef(), m_figura.getFigura(f, c));
+			m_figura.turnAntiHorari();
 		}
 	}
 
@@ -172,12 +149,17 @@ bool Joc::mouFigura(int dirX)
 		}
 	}
 
-	for (int f = 0; f < MAX_ALCADA; f++)
+	int fila = 0;
+	int col = 0;
+	for (int f = m_figura.getPosFRef(); f < m_figura.getPosFRef() + MAX_ALCADA; f++)
 	{
-		for (int c = 0; c < MAX_AMPLADA; c++)
+		col = 0;
+		for (int c = m_figura.getPosCRef(); c < m_figura.getPosCRef() + m_figura.getAmplada(); c++)
 		{
-			m_tauler.setTauler(f + m_figura.getPosFRef(), c + m_figura.getPosCRef(), m_figura.getFigura(f, c));
+			m_tauler.setTauler(f, c, m_figura.getFigura(fila, col));
+			col++;
 		}
+		fila++;
 	}
 	return mov_valid;
 }
@@ -187,31 +169,38 @@ int Joc::baixaFigura()//ultimos cambios
 	int files_completades = 0;
 	bool colisiona;
 
-	//1er comprovar q moviment es valid abans de desplaçar
+	//1er comprovar q moviment es valid
+	m_figura.movDown();
 	colisiona = m_tauler.colisiona(m_figura);
 
+	//2n desar el moviment si la figura colisiona
+	desaFigura(colisiona);
 
-	if (colisiona)
-	{
-		m_figura.movDown();
-		//2n colocar figura a tauler
-		for (int i = 0; i < MAX_ALCADA; i++)
-		{
-			for (int c = 0; c < MAX_AMPLADA; c++)
-			{
-				m_tauler.setTauler(i + m_figura.getPosFRef(), c + m_figura.getPosCRef(), m_figura.getFigura(i, c));
-			}
-		}
-
-		//3er comprovar si es completa una fila y eliminarla
-		files_completades = m_tauler.eliminaFila();
-
-	}
+	//3er comprovar si es completa una fila y eliminarla
+	files_completades = m_tauler.eliminaFila();
 
 	return files_completades;
 }
 
-void Joc::escriuTauler(const string& nomFitxer)//si o si esta bien
+void Joc::desaFigura(bool colisiona)
+{
+	if (colisiona)
+	{
+		int fila = 0;
+		int col = 0;
+		for (int f = m_figura.getPosFRef(); f < m_figura.getPosFRef() + MAX_ALCADA; f++)
+		{
+			col = 0;
+			for (int c = m_figura.getPosCRef(); c < m_figura.getPosCRef() + m_figura.getAmplada(); c++)
+			{
+				m_tauler.setTauler(f, c, m_figura.getFigura(fila, col));
+				col++;
+			}
+			fila++;
+		}
+	}
+}
+void Joc::escriuTauler(const string& nomFitxer)
 {
 	ofstream fitxer;
 
@@ -219,11 +208,31 @@ void Joc::escriuTauler(const string& nomFitxer)//si o si esta bien
 
 	if (fitxer.is_open())
 	{
+
+		//coloquem la figura
 		for (int f = 0; f < MAX_FILA; f++)
 		{
 			for (int c = 0; c < MAX_COL; c++)
 			{
-				fitxer << m_tauler.getTauler(f, c) << " ";//ultimos cambios
+
+				if ((f < m_figura.getPosFRef() + MAX_ALCADA) && f >= m_figura.getPosFRef())
+				{
+
+					if ((c < m_figura.getPosCRef() + m_figura.getAmplada() && (c >= m_figura.getPosCRef())) && m_figura.getFigura(f - m_figura.getPosFRef(), c - m_figura.getPosCRef()) != COLOR_NEGRE)
+					{
+						fitxer << m_figura.getFigura(f - m_figura.getPosFRef(), c - m_figura.getPosCRef());
+
+					}
+					else
+					{
+						fitxer << m_tauler.getTauler(f, c);
+					}
+
+				}
+				else
+				{
+					fitxer << m_tauler.getTauler(f, c);
+				}
 			}
 			cout << endl;
 		}

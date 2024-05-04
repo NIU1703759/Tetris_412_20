@@ -14,6 +14,7 @@ public:
 	bool mouFigura(int dirX);
 	int baixaFigura();
 	void escriuTauler(const string& nomFitxer);
+	void desaFigura(bool colisiona);
 	//EXTRA
 	//void capcelera();
 private:
@@ -22,3 +23,4 @@ private:
 };
 
 #endif
+

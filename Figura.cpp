@@ -3,10 +3,10 @@
 
 using namespace std;
 
-Figura::Figura()
+/*Figura::Figura()
 {
 	m_posf_ref = 0;
-	m_posc_ref = 2;
+	m_posc_ref = 0;
 	//??
 	m_posf = 0;
 	m_posc = 0;
@@ -22,8 +22,35 @@ Figura::Figura()
 		}
 	}
 
-}
+}*/
 
+int Figura::getAmplada()//retorna el num de columnes NO buides de la matriu figura
+{
+	int amplada = 0;
+	int index_min = MAX_AMPLADA;
+	int index_max = 0;
+
+
+	for (int c = 0; c < MAX_ALCADA; c++)
+	{
+		for (int f = 0; f < MAX_AMPLADA; f++)
+		{
+			if (m_forma[f][c] != COLOR_NEGRE)
+			{
+				if (c < index_min)
+				{
+					index_min = c;
+				}
+				if (c > index_max)
+				{
+					index_max = c;
+				}
+			}
+		}
+	}
+	amplada = index_max - index_min;
+	return amplada + 1;
+}
 void Figura::incialitzaFigura(TipusFigura tipus, ColorFigura color)
 {
 	switch (tipus)
@@ -49,8 +76,8 @@ void Figura::incialitzaFigura(TipusFigura tipus, ColorFigura color)
 
 		//EJE MOTRIZ + ref
 
-		/*m_posf = 0;
-		m_posc = 1;*/
+		m_posf_ref = m_posf;
+		m_posc_ref = m_posc - 1;
 
 		m_color = color;
 		m_tipus = tipus;
@@ -77,8 +104,8 @@ void Figura::incialitzaFigura(TipusFigura tipus, ColorFigura color)
 
 		//EJE MOTRIZ + ref
 
-		/*m_posf = 1;
-		m_posc = 2;*/
+		m_posf_ref = m_posf - 1;
+		m_posc_ref = m_posc - 1;
 
 		m_color = color;
 		m_tipus = tipus;
@@ -105,8 +132,8 @@ void Figura::incialitzaFigura(TipusFigura tipus, ColorFigura color)
 
 		//EJE MOTRIZ + ref
 
-		/*m_posf = 1;
-		m_posc = 1;*/
+		m_posf_ref = m_posf - 1;
+		m_posc_ref = m_posc - 1;
 
 		m_color = color;
 		m_tipus = tipus;
@@ -133,8 +160,8 @@ void Figura::incialitzaFigura(TipusFigura tipus, ColorFigura color)
 
 		//EJE MOTRIZ + ref
 
-		/*m_posf = 1;
-		m_posc = 1;*/
+		m_posf_ref = m_posf - 1;
+		m_posc_ref = m_posc - 1;
 
 		m_color = color;
 		m_tipus = tipus;
@@ -161,8 +188,8 @@ void Figura::incialitzaFigura(TipusFigura tipus, ColorFigura color)
 
 		//EJE MOTRIZ + ref
 
-		/*m_posf = 1;
-		m_posc = 1;*/
+		m_posf_ref = m_posf - 1;
+		m_posc_ref = m_posc - 1;
 
 		m_color = color;
 		m_tipus = tipus;
@@ -189,8 +216,8 @@ void Figura::incialitzaFigura(TipusFigura tipus, ColorFigura color)
 
 		//EJE MOTRIZ + ref
 
-		/*m_posf = 1;
-		m_posc = 1;*/
+		m_posf_ref = m_posf - 1;
+		m_posc_ref = m_posc - 1;
 
 		m_color = color;
 		m_tipus = tipus;
@@ -217,8 +244,8 @@ void Figura::incialitzaFigura(TipusFigura tipus, ColorFigura color)
 
 		//EJE MOTRIZ + ref
 
-		/*m_posf = 1;
-		m_posc = 1;*/
+		m_posf_ref = m_posf - 1;
+		m_posc_ref = m_posc - 1;
 
 		m_color = color;
 		m_tipus = tipus;
@@ -275,42 +302,71 @@ void Figura::movDown()
 
 void Figura::invertirColumnes()
 {
-	for (int i = 0; i < MAX_ALCADA; i++)
+	ColorFigura temp;
+	int dim = MAX_ALCADA;
+
+	if (m_tipus != FIGURA_I)
+		dim = getAmplada();
+
+	for (int i = 0; i < dim; i++)
 	{
-		for (int j = 0; j < MAX_AMPLADA; j++)
+		for (int j = 0; j < dim; j++)
 		{
-			m_forma[i][j] = m_forma[i][MAX_AMPLADA - 1 - j];
+			temp = m_forma[i][j];
+			m_forma[i][j] = m_forma[i][dim - 1 - j];
+			m_forma[i][dim - 1 - j] = temp;
 		}
 	}
 }
 void Figura::invertirFiles()
 {
-	for (int j = 0; j < MAX_AMPLADA; j++)
+	ColorFigura temp;
+	int dim = MAX_ALCADA;
+
+	if (m_tipus != FIGURA_I)
+		dim = getAmplada();
+	for (int j = 0; j < dim; j++)
 	{
-		for (int i = 0; i < MAX_ALCADA; i++)
+		for (int i = 0; i < dim; i++)
 		{
-			m_forma[i][j] = m_forma[MAX_ALCADA - 1 - i][j];
+			temp = m_forma[i][j];
+			m_forma[i][j] = m_forma[dim - 1 - i][j];
+			m_forma[dim - 1 - i][j] = temp;
 		}
 	}
 }
 void Figura::turnHorari()
 {
-	for (int i = 0; i < MAX_ALCADA; i++)
+	ColorFigura temp;
+	int dim = MAX_ALCADA;
+
+	if (m_tipus != FIGURA_I)
+		dim = getAmplada();
+	for (int i = 0; i < dim; i++)
 	{
-		for (int j = 0; j < MAX_AMPLADA; j++)
+		for (int j = i + 1; j < dim; j++)
 		{
+			temp = m_forma[j][i];
 			m_forma[j][i] = m_forma[i][j];
+			m_forma[i][j] = temp;
 		}
 	}
 	invertirColumnes();
 }
 void Figura::turnAntiHorari()
 {
-	for (int i = 0; i < MAX_ALCADA; i++)
+	ColorFigura temp;
+	int dim = MAX_ALCADA;
+
+	if (m_tipus != FIGURA_I)
+		dim = getAmplada();
+	for (int i = 0; i < dim; i++)
 	{
-		for (int j = 0; j < MAX_AMPLADA; j++)
+		for (int j = i + 1; j < dim; j++)
 		{
+			temp = m_forma[j][i];
 			m_forma[j][i] = m_forma[i][j];
+			m_forma[i][j] = temp;
 		}
 	}
 	invertirFiles();

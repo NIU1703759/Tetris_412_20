@@ -1,7 +1,7 @@
 #ifndef TAULER_H
 #define TAULER_H
 #include "Figura.h"
-using namespace std;
+
 const int MAX_FILA = 8;
 const int MAX_COL = 8;
 
@@ -15,6 +15,7 @@ public:
 	bool girCorrecte(Figura figura, DireccioGir gir);
 	int eliminaFila();
 
+	void desaFigura(bool colisiona);
 	bool colisiona(Figura figura);
 
 	int contarBloquesEnFila(int fila);
@@ -27,10 +28,8 @@ public:
 
 private:
 	ColorFigura m_tauler[MAX_FILA][MAX_COL];
-	Figura next_Figura;
 
 	void desplazarFilasSuperiores(int fila);
 	void eliminarFila(int fila);
 };
-
 #endif

@@ -1,19 +1,5 @@
 #ifndef FIGURA_H
 #define FIGURA_H
-#include <iostream>
-
-using namespace std;
-typedef enum
-{
-	NO_FIGURA = 0,
-	FIGURA_O,
-	FIGURA_I,
-	FIGURA_T,
-	FIGURA_L,
-	FIGURA_J,
-	FIGURA_Z,
-	FIGURA_S
-} TipusFigura;
 
 typedef enum
 {
@@ -28,20 +14,33 @@ typedef enum
 	NO_COLOR
 } ColorFigura;
 
+
+typedef enum
+{
+	NO_FIGURA = 0,
+	FIGURA_O,
+	FIGURA_I,
+	FIGURA_T,
+	FIGURA_L,
+	FIGURA_J,
+	FIGURA_Z,
+	FIGURA_S,
+} TipusFigura;
+
+const int MAX_ALCADA = 4;
+const int MAX_AMPLADA = 4;
+
 typedef enum
 {
 	GIR_HORARI = 0,
 	GIR_ANTI_HORARI
-}DireccioGir;
-
-const int MAX_ALCADA = 4;
-const int MAX_AMPLADA = 4;
+} DireccioGir;
 
 class Figura
 {
 public:
 	//costructor
-	Figura();
+	//Figura();
 
 	//funcion para declarar forma de figura en matriz de la figura 
 	void incialitzaFigura(TipusFigura tipus, ColorFigura color);
@@ -71,6 +70,9 @@ public:
 	void setPosFRef(int pos) { m_posf_ref = pos; }
 	void setPosCRef(int pos) { m_posc_ref = pos; }
 
+	//get amplada
+	int getAmplada();
+
 	ColorFigura getColor() const { return m_color; };
 	void setColor(ColorFigura color) { m_color = color; };
 
@@ -91,6 +93,8 @@ private:
 	int m_gir;
 
 	ColorFigura m_forma[MAX_ALCADA][MAX_AMPLADA];//preguntar por medidas figura a la hora de implementar funciones
-};
-#endif
 
+};
+
+
+#endif
