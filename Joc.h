@@ -8,13 +8,16 @@ using namespace std;
 class Joc
 {
 public:
-	Joc() {}
+	//Joc() {}
+	//interaccio amb tauler
 	void inicialitza(const string& nomFitxer);
+	void escriuTauler(const string& nomFitxer);
+
+	//moviments
 	bool giraFigura(DireccioGir direccio);
 	bool mouFigura(int dirX);
 	int baixaFigura();
-	void escriuTauler(const string& nomFitxer);
-	void desaFigura(bool colisiona);
+
 	//EXTRA
 	//void capcelera();
 private:
@@ -23,4 +26,3 @@ private:
 };
 
 #endif
-

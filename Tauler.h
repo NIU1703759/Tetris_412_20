@@ -10,17 +10,19 @@ class Tauler
 public:
 	Tauler();
 
-	bool dins(int fila, int columna);
-	bool ocupada(Figura figura, int direccio);
-	bool girCorrecte(Figura figura, DireccioGir gir);
+	//comprovacio escenaris tauler
+	bool inicialitzaTaulerTest(Tauler& auxiliar, Tauler& celaEsFigura, Figura figura);
+	bool dins(Figura figura);
+	bool provocaXoc(Figura& figura, int moviment);
+	bool colisiona(Figura& figura);
+
+	//eliminar files
 	int eliminaFila();
-
-	void desaFigura(bool colisiona);
-	bool colisiona(Figura figura);
-
 	int contarBloquesEnFila(int fila);
 
-	void mostraTauler();//ultimos cambios
+	//comprovacio + desar tauler
+	void mostraTauler();
+	void desaFigura(bool colisiona, Figura figura);
 
 	//metodes accessibles per Joc
 	void setTauler(int fila, int columna, ColorFigura casilla);

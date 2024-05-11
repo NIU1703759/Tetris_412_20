@@ -3,27 +3,19 @@
 
 using namespace std;
 
-/*Figura::Figura()
+/*Figura::Figura(ColorFigura color, TipusFigura tipus)
 {
 	m_posf_ref = 0;
 	m_posc_ref = 0;
 	//??
-	m_posf = 0;
-	m_posc = 0;
-	m_tipus = FIGURA_I;
-	m_color = NO_COLOR;
-	m_gir = GIR_HORARI;
-
-	for (int f = 0; f < MAX_ALCADA; f++)
-	{
-		for (int c = 0; c < MAX_AMPLADA; c++)
-		{
-			m_forma[f][c] = NO_COLOR;
-		}
-	}
-
+	m_posf = 2;
+	m_posc = 1;
+	m_tipus = tipus;
+	m_color = color;
+	incialitzaFigura(tipus, color);
 }*/
 
+//get+set d'atributs i inicialitzacio
 int Figura::getAmplada()//retorna el num de columnes NO buides de la matriu figura
 {
 	int amplada = 0;
@@ -76,7 +68,7 @@ void Figura::incialitzaFigura(TipusFigura tipus, ColorFigura color)
 
 		//EJE MOTRIZ + ref
 
-		m_posf_ref = m_posf;
+		m_posf_ref = m_posf - 1;
 		m_posc_ref = m_posc - 1;
 
 		m_color = color;
@@ -105,7 +97,7 @@ void Figura::incialitzaFigura(TipusFigura tipus, ColorFigura color)
 		//EJE MOTRIZ + ref
 
 		m_posf_ref = m_posf - 1;
-		m_posc_ref = m_posc - 1;
+		m_posc_ref = m_posc - 2;
 
 		m_color = color;
 		m_tipus = tipus;
@@ -256,57 +248,36 @@ void Figura::incialitzaFigura(TipusFigura tipus, ColorFigura color)
 	}
 }
 
-ColorFigura Figura::getFigura(int fila, int columna)
-{
-	return m_forma[fila][columna];
-}
-
+//moviments basics
 void Figura::movRight()
 {
 	m_posc++;
 	m_posc_ref++;
-	/*deduzco que dado tanto el giro como el movimiento vienen
-	* dados por el eje motriz, la consecuente movilizacion del
-	* resto de la matrix m_forma corre a caro de la clase JOC*/
-	/*
-	* for(int i=0;i<MAX_FILES;i++)
-	* {
-	*	for(int j=0;j<MAX_COLUMNES)
-	*	{
-	*		m_forma[i][j]=m_forma[i][j+1];
-	*	}
-	*
-	* }
-	*
-	*/
 }
 void Figura::movLeft()
 {
 	m_posc--;
 	m_posc_ref--;
-	/*for (int i = 0; i < MAX_FILES; i++)
-	{
-		for (int j = MAX_COLUMNES; j >0;j--)
-		{
-			m_forma[i][j] = m_forma[i][j -1];
-
-		}
-	}
-	*/
 }
 void Figura::movDown()
 {
 	m_posf++;
 	m_posf_ref++;
 }
+void Figura::movUp()
+{
+	m_posf--;
+	m_posf_ref--;
+}
 
+//girs
 void Figura::invertirColumnes()
 {
 	ColorFigura temp;
 	int dim = MAX_ALCADA;
 
 	if (m_tipus != FIGURA_I)
-		dim = getAmplada();
+		dim = 3;
 
 	for (int i = 0; i < dim; i++)
 	{
@@ -324,7 +295,7 @@ void Figura::invertirFiles()
 	int dim = MAX_ALCADA;
 
 	if (m_tipus != FIGURA_I)
-		dim = getAmplada();
+		dim = 3;
 	for (int j = 0; j < dim; j++)
 	{
 		for (int i = 0; i < dim; i++)
@@ -340,34 +311,60 @@ void Figura::turnHorari()
 	ColorFigura temp;
 	int dim = MAX_ALCADA;
 
-	if (m_tipus != FIGURA_I)
-		dim = getAmplada();
-	for (int i = 0; i < dim; i++)
+	if (m_tipus != FIGURA_O)
 	{
-		for (int j = i + 1; j < dim; j++)
+		if (m_tipus != FIGURA_I)
+			dim = 3;
+		for (int i = 0; i < dim; i++)
 		{
-			temp = m_forma[j][i];
-			m_forma[j][i] = m_forma[i][j];
-			m_forma[i][j] = temp;
+			for (int j = i + 1; j < dim; j++)
+			{
+				temp = m_forma[j][i];
+				m_forma[j][i] = m_forma[i][j];
+				m_forma[i][j] = temp;
+			}
 		}
+		invertirColumnes();
+
+		/*m_posf_ref = m_posf - 1;
+		if (m_tipus != FIGURA_I)
+		{
+			m_posc_ref=m_posc- 1;
+		}
+		else
+		{
+			m_posc_ref=m_posc-2;
+		}*/
 	}
-	invertirColumnes();
 }
 void Figura::turnAntiHorari()
 {
 	ColorFigura temp;
 	int dim = MAX_ALCADA;
 
-	if (m_tipus != FIGURA_I)
-		dim = getAmplada();
-	for (int i = 0; i < dim; i++)
+	if (m_tipus != FIGURA_O)
 	{
-		for (int j = i + 1; j < dim; j++)
+		if (m_tipus != FIGURA_I)
+			dim = 3;
+		for (int i = 0; i < dim; i++)
 		{
-			temp = m_forma[j][i];
-			m_forma[j][i] = m_forma[i][j];
-			m_forma[i][j] = temp;
+			for (int j = i + 1; j < dim; j++)
+			{
+				temp = m_forma[j][i];
+				m_forma[j][i] = m_forma[i][j];
+				m_forma[i][j] = temp;
+			}
 		}
+		invertirFiles();
+
+		/*m_posf_ref = m_posf - 1;
+		if (m_tipus != FIGURA_I)
+		{
+			m_posc_ref = m_posc - 1;
+		}
+		else
+		{
+			m_posc_ref = m_posc - 2;
+		}*/
 	}
-	invertirFiles();
 }

@@ -40,45 +40,47 @@ class Figura
 {
 public:
 	//costructor
-	//Figura();
+	//Figura(ColorFigura color,TipusFigura tipus);
 
-	//funcion para declarar forma de figura en matriz de la figura 
+	//incialitzacio forma i atributs figura
 	void incialitzaFigura(TipusFigura tipus, ColorFigura color);
 
+	//moviments basics
 	void movRight();
 	void movLeft();
 	void movDown();
+	void movUp();
 
+	//girs
 	void turnHorari();
 	void turnAntiHorari();
-
 	void invertirColumnes();
 	void invertirFiles();
 
-	TipusFigura getForma() const { return m_tipus; };
-	void setForma(TipusFigura tipus) { m_tipus = tipus; };
-
-	//get+set eje motriz
+	//get+set atributs
+	//-- eix motriu --
 	int getPosF() const { return m_posf; }
 	int getPosC() const { return m_posc; }
 	void setPosF(int pos) { m_posf = pos; }
 	void setPosC(int pos) { m_posc = pos; }
 
-	//get+set posicion referencia
+	//-- eix de referencia --
 	int getPosFRef() const { return m_posf_ref; }
 	int getPosCRef() const { return m_posc_ref; }
 	void setPosFRef(int pos) { m_posf_ref = pos; }
 	void setPosCRef(int pos) { m_posc_ref = pos; }
 
-	//get amplada
+	//-- amplada --
 	int getAmplada();
 
+	//-- color , tipus i elements --
 	ColorFigura getColor() const { return m_color; };
 	void setColor(ColorFigura color) { m_color = color; };
-
-	void setGir(int gir) { m_gir = gir; }
-
-	ColorFigura getFigura(int fila, int columna);
+	TipusFigura getForma() const { return m_tipus; };
+	void setForma(TipusFigura tipus) { m_tipus = tipus; };
+	ColorFigura getFigura(int fila, int columna) { return m_forma[fila][columna]; };
+	void setColocada(bool colocada) { m_colocada = colocada; }
+	bool getColocada() { return m_colocada; }
 
 private:
 	TipusFigura m_tipus;
@@ -90,9 +92,11 @@ private:
 	int m_posf_ref;
 	int m_posc_ref;
 
-	int m_gir;
+	//int m_gir;
 
-	ColorFigura m_forma[MAX_ALCADA][MAX_AMPLADA];//preguntar por medidas figura a la hora de implementar funciones
+	ColorFigura m_forma[MAX_ALCADA][MAX_AMPLADA];
+	//prueba
+	bool m_colocada;
 
 };
 

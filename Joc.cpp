@@ -42,7 +42,7 @@ using namespace std;
 
 }*/
 
-//FUNCIONS
+//interaccio amb tauler
 void Joc::inicialitza(const string& nomFitxer)
 {
 	ifstream fitxer;
@@ -72,9 +72,8 @@ void Joc::inicialitza(const string& nomFitxer)
 			//omplim figura
 			m_figura.setPosF(fila);
 			m_figura.setPosC(columna);
-			m_figura.setGir(gir);
 			m_figura.incialitzaFigura(tipus, color);
-
+			m_figura.setColocada(false);
 			//ampliquem gir de la figura
 			for (int i = 0; i < gir % 4; i++)
 			{
@@ -95,147 +94,135 @@ void Joc::inicialitza(const string& nomFitxer)
 		}
 	}
 }
+void Joc::escriuTauler(const string& nomFitxer)
+{
+	bool colisiona = true;
 
+	ofstream fitxer;
 
+	fitxer.open(nomFitxer);
+
+	m_tauler.desaFigura(colisiona, m_figura);
+
+	if (fitxer.is_open())
+	{
+		for (int f = 0; f < MAX_FILA; f++)
+		{
+			for (int c = 0; c < MAX_COL; c++)
+			{
+				fitxer << m_tauler.getTauler(f, c);
+			}
+		}
+	}
+	fitxer.close();
+}
+
+//moviments
 bool Joc::giraFigura(DireccioGir direccio)
 {
 	bool xoc = false;
 
-	//comprovacio xoc
 	if (direccio == GIR_HORARI)
 	{
+		xoc = m_tauler.provocaXoc(m_figura, 2);
+	}
+	else
+	{
+		xoc = m_tauler.provocaXoc(m_figura, -2);
+	}
+	//comprovacio xoc
+	/*if (direccio == GIR_HORARI)
+	{
 		m_figura.turnHorari();
+		if (m_tauler.dins(m_figura))
+		{
+			xoc = m_tauler.provocaXoc(m_figura);
+			if (xoc)
+			{
+				m_figura.turnAntiHorari();
+			}
+		}
+		else
+		{
+			xoc = true;
+			m_figura.turnAntiHorari();
+		}
 	}
 	if (direccio == GIR_ANTI_HORARI)
 	{
 		m_figura.turnAntiHorari();
-	}
-
-	xoc = m_tauler.girCorrecte(m_figura, direccio);
-
-	if (xoc)
-	{
-		if (direccio == GIR_HORARI)
+		if (m_tauler.dins(m_figura))
 		{
-			m_figura.turnAntiHorari();
+			xoc = m_tauler.provocaXoc(m_figura);
+			if (xoc)
+			{
+				m_figura.turnHorari();
+			}
 		}
-		if (direccio == GIR_ANTI_HORARI)
+		else
 		{
-			m_figura.turnAntiHorari();
+			xoc = true;
+			m_figura.turnHorari();
 		}
-	}
-
+	}*/
 	return xoc;
-
 }
 bool Joc::mouFigura(int dirX)
 {
-	bool mov_valid = false;
-	if (dirX == 1)
-	{
+	bool ocupada = false;
 
-		mov_valid = (m_tauler.ocupada(m_figura, dirX));
-		if (!mov_valid)
+	ocupada = m_tauler.provocaXoc(m_figura, dirX);
+	/*if (dirX == 1)
+	{
+		m_figura.movRight();
+		if (m_tauler.dins(m_figura))
 		{
-			m_figura.movRight();
+			ocupada = (m_tauler.provocaXoc(m_figura));
+			if (ocupada)
+			{
+				m_figura.movLeft();
+			}
+		}
+		else
+		{
+			ocupada = true;
+			m_figura.movLeft();
 		}
 	}
 	else
 	{
-		mov_valid = m_tauler.ocupada(m_figura, dirX);
-		if (!mov_valid)
+		m_figura.movLeft();
+		if (m_tauler.dins(m_figura))
 		{
-			m_figura.movLeft();
+			ocupada = (m_tauler.provocaXoc(m_figura));
+			if (ocupada)
+			{
+				m_figura.movRight();
+			}
 		}
-	}
+		else
+		{
+			ocupada = true;
+			m_figura.movRight();
+		}
+	}*/
 
-	int fila = 0;
-	int col = 0;
-	for (int f = m_figura.getPosFRef(); f < m_figura.getPosFRef() + MAX_ALCADA; f++)
-	{
-		col = 0;
-		for (int c = m_figura.getPosCRef(); c < m_figura.getPosCRef() + m_figura.getAmplada(); c++)
-		{
-			m_tauler.setTauler(f, c, m_figura.getFigura(fila, col));
-			col++;
-		}
-		fila++;
-	}
-	return mov_valid;
+
+	return ocupada;
 }
-
 int Joc::baixaFigura()//ultimos cambios
 {
 	int files_completades = 0;
 	bool colisiona;
 
 	//1er comprovar q moviment es valid
-	m_figura.movDown();
 	colisiona = m_tauler.colisiona(m_figura);
 
 	//2n desar el moviment si la figura colisiona
-	desaFigura(colisiona);
+	m_tauler.desaFigura(colisiona, m_figura);
 
 	//3er comprovar si es completa una fila y eliminarla
 	files_completades = m_tauler.eliminaFila();
 
 	return files_completades;
-}
-
-void Joc::desaFigura(bool colisiona)
-{
-	if (colisiona)
-	{
-		int fila = 0;
-		int col = 0;
-		for (int f = m_figura.getPosFRef(); f < m_figura.getPosFRef() + MAX_ALCADA; f++)
-		{
-			col = 0;
-			for (int c = m_figura.getPosCRef(); c < m_figura.getPosCRef() + m_figura.getAmplada(); c++)
-			{
-				m_tauler.setTauler(f, c, m_figura.getFigura(fila, col));
-				col++;
-			}
-			fila++;
-		}
-	}
-}
-void Joc::escriuTauler(const string& nomFitxer)
-{
-	ofstream fitxer;
-
-	fitxer.open(nomFitxer);
-
-	if (fitxer.is_open())
-	{
-
-		//coloquem la figura
-		for (int f = 0; f < MAX_FILA; f++)
-		{
-			for (int c = 0; c < MAX_COL; c++)
-			{
-
-				if ((f < m_figura.getPosFRef() + MAX_ALCADA) && f >= m_figura.getPosFRef())
-				{
-
-					if ((c < m_figura.getPosCRef() + m_figura.getAmplada() && (c >= m_figura.getPosCRef())) && m_figura.getFigura(f - m_figura.getPosFRef(), c - m_figura.getPosCRef()) != COLOR_NEGRE)
-					{
-						fitxer << m_figura.getFigura(f - m_figura.getPosFRef(), c - m_figura.getPosCRef());
-
-					}
-					else
-					{
-						fitxer << m_tauler.getTauler(f, c);
-					}
-
-				}
-				else
-				{
-					fitxer << m_tauler.getTauler(f, c);
-				}
-			}
-			cout << endl;
-		}
-	}
-	fitxer.close();
 }
