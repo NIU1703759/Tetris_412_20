@@ -19,6 +19,8 @@ public:
 	//eliminar files
 	int eliminaFila();
 	int contarBloquesEnFila(int fila);
+	void desplazarFilasSuperiores(int fila);
+	void eliminarFila(int fila);
 
 	//comprovacio + desar tauler
 	void mostraTauler();
@@ -31,7 +33,5 @@ public:
 private:
 	ColorFigura m_tauler[MAX_FILA][MAX_COL];
 
-	void desplazarFilasSuperiores(int fila);
-	void eliminarFila(int fila);
 };
 #endif

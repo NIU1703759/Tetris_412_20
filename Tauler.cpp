@@ -51,6 +51,16 @@ void Tauler::desaFigura(bool colisiona, Figura figura)
             }
             fila++;
         }
+        /*int index_inici = 0;
+        int index_final = 0;
+        int amplada = figura.getAmplada(index_inici, index_final);
+        for (int i = 0; i < MAX_ALCADA; i++)
+        {
+            for (int c = 0; c < MAX_AMPLADA; c++)
+            {
+                figura.setFigura(i, c, COLOR_NEGRE);
+            }
+        }*/
     }
 }
 
@@ -108,7 +118,7 @@ bool Tauler::inicialitzaTaulerTest(Tauler& auxiliar, Tauler& celaEsFigura, Figur
 
 bool Tauler::dins(Figura figura, int& index_inici, int& index_final)
 {
-    return figura.getPosFRef() >= 0 && figura.getPosFRef() + MAX_ALCADA < MAX_FILA&& figura.getPosCRef() >= 0 && figura.getPosCRef() + figura.getAmplada(index_inici, index_final) < MAX_COL;
+    return figura.getPosFRef() >= 0 && figura.getPosFRef() + MAX_ALCADA < MAX_FILA && figura.getPosCRef() >= 0 && figura.getPosCRef() + figura.getAmplada(index_inici, index_final) < MAX_COL;
 }
 
 bool Tauler::provocaXoc(Figura& figura, int moviment)
@@ -145,7 +155,7 @@ bool Tauler::provocaXoc(Figura& figura, int moviment)
         auxiliar.mostraTauler();
         cout << endl;
 
-        //4rt comprovar colisions-- NECESARIO??
+        //4rt comprovar colisions
         int f = 0;
         int c = 0;
         if (colocacio_valida)
@@ -190,7 +200,7 @@ bool Tauler::provocaXoc(Figura& figura, int moviment)
         }
         else//comprovacio colisio
         {
-            bool colisiona = false;
+            /*bool colisiona = false;
             int f = 0;
             int c = 0;
 
@@ -211,7 +221,7 @@ bool Tauler::provocaXoc(Figura& figura, int moviment)
                 }
                 f++;
             }
-            figura.setColocada(colisiona);
+            figura.setColocada(colisiona);*/
         }
     }
     return xoc;
@@ -222,6 +232,7 @@ bool Tauler::colisiona(Figura& figura)//ultimos cambios
     bool colisiona = false;
     if (!figura.getColocada())
     {
+
         //modifiquem posicio figura per test
         figura.movDown();
         //genera matriz auxiliar
@@ -255,6 +266,10 @@ bool Tauler::colisiona(Figura& figura)//ultimos cambios
                 f++;
             }
         }
+        if (provoca_xoc)
+        {
+            figura.movUp();
+        }
         figura.setColocada(colisiona);
         //La figura colisiona cuando la posicion que le pertenece a la figura desplazada ya estaba ocupada en el tablero original
     }
@@ -281,15 +296,15 @@ int Tauler::eliminaFila()
 {
     bool elimina = false;
     int nfilesEliminades = 0;
+    int contadorBlocs = 0;
 
     for (int i = 0; i < MAX_FILA; i++)
     {
-        int contadorBlocs = contarBloquesEnFila(i);
+        contadorBlocs = contarBloquesEnFila(i);
         elimina = false;
         if (contadorBlocs == MAX_COL)
         {
             elimina = true;
-            break;
         }
         if (elimina)
         {
@@ -301,15 +316,14 @@ int Tauler::eliminaFila()
     return nfilesEliminades;
 }
 
-//funcions privades d'eliminaFila():
-void Tauler::eliminarFila(int fila)//si o si estan bien
+void Tauler::eliminarFila(int fila)
 {
     for (int j = 0; j < MAX_COL; j++)
     {
         m_tauler[fila][j] = COLOR_NEGRE;
     }
 }
-void Tauler::desplazarFilasSuperiores(int fila)//si o si estan bien
+void Tauler::desplazarFilasSuperiores(int fila)
 {
     for (int i = fila; i > 0; i--)
     {
@@ -323,4 +337,3 @@ void Tauler::desplazarFilasSuperiores(int fila)//si o si estan bien
         m_tauler[0][j] = COLOR_NEGRE;
     }
 }
-

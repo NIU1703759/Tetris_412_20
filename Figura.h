@@ -76,9 +76,13 @@ public:
 	//-- color , tipus i elements --
 	ColorFigura getColor() const { return m_color; };
 	void setColor(ColorFigura color) { m_color = color; };
+
 	TipusFigura getForma() const { return m_tipus; };
 	void setForma(TipusFigura tipus) { m_tipus = tipus; };
+
 	ColorFigura getFigura(int fila, int columna) { return m_forma[fila][columna]; };
+	void setFigura(int fila, int columna, ColorFigura color) { m_forma[fila][columna] = color; }
+
 	void setColocada(bool colocada) { m_colocada = colocada; }
 	bool getColocada() { return m_colocada; }
 
@@ -104,4 +108,3 @@ private:
 
 
 #endif
-

@@ -102,7 +102,11 @@ void Joc::escriuTauler(const string& nomFitxer)
 
 	fitxer.open(nomFitxer);
 
-	m_tauler.desaFigura(colisiona, m_figura);
+	if (!m_figura.getColocada())
+	{
+		m_tauler.desaFigura(colisiona, m_figura);
+		m_figura.setColocada(true);
+	}
 
 	if (fitxer.is_open())
 	{
