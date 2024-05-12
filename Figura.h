@@ -71,7 +71,7 @@ public:
 	void setPosCRef(int pos) { m_posc_ref = pos; }
 
 	//-- amplada --
-	int getAmplada();
+	int getAmplada(int& index_inici, int& index_final);
 
 	//-- color , tipus i elements --
 	ColorFigura getColor() const { return m_color; };
@@ -81,6 +81,8 @@ public:
 	ColorFigura getFigura(int fila, int columna) { return m_forma[fila][columna]; };
 	void setColocada(bool colocada) { m_colocada = colocada; }
 	bool getColocada() { return m_colocada; }
+
+	Figura operator=(const Figura& f);
 
 private:
 	TipusFigura m_tipus;
@@ -102,3 +104,4 @@ private:
 
 
 #endif
+

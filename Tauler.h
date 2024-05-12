@@ -12,7 +12,7 @@ public:
 
 	//comprovacio escenaris tauler
 	bool inicialitzaTaulerTest(Tauler& auxiliar, Tauler& celaEsFigura, Figura figura);
-	bool dins(Figura figura);
+	bool dins(Figura figura, int& index_inici, int& index_final);
 	bool provocaXoc(Figura& figura, int moviment);
 	bool colisiona(Figura& figura);
 

@@ -68,42 +68,47 @@ bool Tauler::inicialitzaTaulerTest(Tauler& auxiliar, Tauler& celaEsFigura, Figur
         }
     }
 
+    //definim param figura
+    int index_inici = 0;
+    int index_final = 0;
+    int amplada = figura.getAmplada(index_inici, index_final);
+
     //2n actualitzem els valor dels espais q pasarien a ser ocupats per la figura en el tauler
     int fila = 0;
     int col = 0;
     int i = figura.getPosFRef();
     int c = figura.getPosCRef();
 
-    while (colocacio_valida && i < figura.getPosFRef() + MAX_ALCADA)
+    if ((index_inici + c) >= 0 && (amplada + c) <= MAX_COL)//BUEN ARREGLO
     {
-        col = 0;
-        c = figura.getPosCRef();
-        while (colocacio_valida && c < figura.getPosCRef() + MAX_AMPLADA)
+        while (colocacio_valida && i < figura.getPosFRef() + MAX_ALCADA)
         {
-            if ((i >= 0 && i < MAX_FILA) && (c >= 0 && c < MAX_COL))
+            col = 0;
+            c = figura.getPosCRef();
+            while (colocacio_valida && c < figura.getPosCRef() + MAX_AMPLADA)
             {
                 if (figura.getFigura(fila, col) != COLOR_NEGRE)
                 {
                     auxiliar.setTauler(i, c, figura.getFigura(fila, col));//generar la matriz auxiliar con la figura ya girada
                     celaEsFigura.setTauler(i, c, figura.getFigura(fila, col));//generar tauler solo con matriz girada para cerciorarnos de que la colision no es detectada con elementos de la propia matriz figura
                 }
+                col++;
+                c++;
             }
-            else
-            {
-                colocacio_valida = false;
-            }
-            col++;
-            c++;
+            fila++;
+            i++;
         }
-        fila++;
-        i++;
+    }
+    else
+    {
+        colocacio_valida = false;
     }
     return colocacio_valida;
 }
 
-bool Tauler::dins(Figura figura)
+bool Tauler::dins(Figura figura, int& index_inici, int& index_final)
 {
-    return figura.getPosFRef() >= 0 && figura.getPosFRef() + MAX_ALCADA < MAX_FILA&& figura.getPosCRef() >= 0 && figura.getPosCRef() + figura.getAmplada() < MAX_COL;
+    return figura.getPosFRef() >= 0 && figura.getPosFRef() + MAX_ALCADA < MAX_FILA&& figura.getPosCRef() >= 0 && figura.getPosCRef() + figura.getAmplada(index_inici, index_final) < MAX_COL;
 }
 
 bool Tauler::provocaXoc(Figura& figura, int moviment)
@@ -140,7 +145,7 @@ bool Tauler::provocaXoc(Figura& figura, int moviment)
         auxiliar.mostraTauler();
         cout << endl;
 
-        //4rt comprovar colisions
+        //4rt comprovar colisions-- NECESARIO??
         int f = 0;
         int c = 0;
         if (colocacio_valida)
@@ -182,6 +187,31 @@ bool Tauler::provocaXoc(Figura& figura, int moviment)
             default:
                 break;
             }
+        }
+        else//comprovacio colisio
+        {
+            bool colisiona = false;
+            int f = 0;
+            int c = 0;
+
+            while (!colisiona && f < MAX_FILA)
+            {
+                c = 0;
+                while (!colisiona && c < MAX_COL)
+                {
+                    if (auxiliar.getTauler(f, c) != COLOR_NEGRE && celaEsFigura.getTauler(f, c) != COLOR_NEGRE && getTauler(f, c) == COLOR_NEGRE)
+                    {
+                        if (getTauler(f + 1, c) != COLOR_NEGRE)
+                        {
+                            colisiona = true;
+
+                        }
+                    }
+                    c++;
+                }
+                f++;
+            }
+            figura.setColocada(colisiona);
         }
     }
     return xoc;
@@ -233,7 +263,7 @@ bool Tauler::colisiona(Figura& figura)//ultimos cambios
 
 
 //eliminar files
-int Tauler::contarBloquesEnFila(int fila)//si o si estan bien
+int Tauler::contarBloquesEnFila(int fila)
 {
     int contadorBlocs = 0;
 
@@ -247,7 +277,7 @@ int Tauler::contarBloquesEnFila(int fila)//si o si estan bien
     return contadorBlocs;
 }
 
-int Tauler::eliminaFila()//si o si estan bien
+int Tauler::eliminaFila()
 {
     bool elimina = false;
     int nfilesEliminades = 0;
@@ -255,7 +285,7 @@ int Tauler::eliminaFila()//si o si estan bien
     for (int i = 0; i < MAX_FILA; i++)
     {
         int contadorBlocs = contarBloquesEnFila(i);
-
+        elimina = false;
         if (contadorBlocs == MAX_COL)
         {
             elimina = true;
@@ -293,3 +323,4 @@ void Tauler::desplazarFilasSuperiores(int fila)//si o si estan bien
         m_tauler[0][j] = COLOR_NEGRE;
     }
 }
+

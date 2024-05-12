@@ -130,6 +130,7 @@ bool Joc::giraFigura(DireccioGir direccio)
 	{
 		xoc = m_tauler.provocaXoc(m_figura, -2);
 	}
+
 	//comprovacio xoc
 	/*if (direccio == GIR_HORARI)
 	{
