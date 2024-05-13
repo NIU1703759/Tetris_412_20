@@ -72,10 +72,7 @@ bool Tauler::inicialitzaTaulerTest(Tauler& auxiliar, Tauler& celaEsFigura, Figur
     int index_inici = 0;
     int index_final = 0;
     int amplada = figura.getAmplada(index_inici, index_final);
-    //------------------
-    int alc_inici = 0;
-    int alc_final = 0;
-    int alcada = figura.getAlcada(alc_inici, alc_final);
+    int alcada = figura.getAlcada();
 
     //2n actualitzem els valor dels espais q pasarien a ser ocupats per la figura en el tauler
     int fila = 0;
@@ -240,11 +237,12 @@ bool Tauler::colisiona(Figura& figura)//ultimos cambios
                 {
                     if (auxiliar.getTauler(f, c) != COLOR_NEGRE && celaEsFigura.getTauler(f, c) != COLOR_NEGRE && getTauler(f, c) == COLOR_NEGRE)
                     {
-                        if (getTauler(f + 1, c) != COLOR_NEGRE)
+                        if (getTauler(f + 1, c) != COLOR_NEGRE || f + 1 == MAX_FILA)
                         {
                             colisiona = true;
 
                         }
+
                     }
                     c++;
                 }
@@ -254,6 +252,29 @@ bool Tauler::colisiona(Figura& figura)//ultimos cambios
         if (provoca_xoc || !colocacio_valida)
         {
             figura.movUp();
+            f = 0;
+            c = 0;
+            if (provoca_xoc)
+            {
+                while (!colisiona && f < MAX_FILA)
+                {
+                    c = 0;
+                    while (!colisiona && c < MAX_COL)
+                    {
+                        if (auxiliar.getTauler(f, c) != COLOR_NEGRE && celaEsFigura.getTauler(f, c) != COLOR_NEGRE && getTauler(f, c) == COLOR_NEGRE)
+                        {
+                            if (getTauler(f + 1, c) != COLOR_NEGRE || f + 1 == MAX_FILA)
+                            {
+                                colisiona = true;
+
+                            }
+
+                        }
+                        c++;
+                    }
+                    f++;
+                }
+            }
         }
         figura.setColocada(colisiona);
         //La figura colisiona cuando la posicion que le pertenece a la figura desplazada ya estaba ocupada en el tablero original

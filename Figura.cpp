@@ -45,7 +45,7 @@ int Figura::getAmplada(int& index_inici, int& index_final)//retorna el num de co
 	index_final = index_max;
 	return amplada + 1;
 }
-int Figura::getAlcada(int& alc_inici, int& alc_final)
+int Figura::getAlcada()
 {
 	int alcada = 0;
 	int index_min = MAX_ALCADA;
@@ -68,13 +68,11 @@ int Figura::getAlcada(int& alc_inici, int& alc_final)
 			}
 		}
 	}
-
 	alcada = index_max - index_min;
-	alc_inici = index_min;
-	alc_final = index_max;
 
 	return alcada + 1;
 }
+
 void Figura::incialitzaFigura(TipusFigura tipus, ColorFigura color)
 {
 	switch (tipus)
@@ -323,6 +321,43 @@ void Figura::movUp()
 }
 
 //girs
+void Figura::transposaMatriu()
+{
+	ColorFigura transposada[MAX_ALCADA][MAX_AMPLADA];
+
+	if (m_tipus == FIGURA_I)
+	{
+		for (int f = 0; f < MAX_ALCADA; f++)
+		{
+			for (int c = 0; c < MAX_AMPLADA; c++)
+			{
+				transposada[c][f] = m_forma[f][c];
+			}
+		}
+	}
+	else {
+
+		for (int f = 0; f < MAX_ALCADA; f++) {
+			for (int c = 0; c < MAX_AMPLADA; c++) {
+				if (f < MAX_ALCADA - 1 && c < MAX_AMPLADA - 1)
+					transposada[c][f] = m_forma[f][c];
+
+				else
+					transposada[f][c] = COLOR_NEGRE;
+
+			}
+		}
+
+	}
+
+	for (int f = 0; f < MAX_AMPLADA; f++)
+	{
+		for (int c = 0; c < MAX_ALCADA; c++)
+		{
+			m_forma[f][c] = transposada[f][c];
+		}
+	}
+}
 void Figura::invertirColumnes()
 {
 	ColorFigura invertida[MAX_ALCADA][MAX_AMPLADA];
@@ -399,75 +434,13 @@ void Figura::invertirFiles()
 }
 void Figura::turnHorari()
 {
-	ColorFigura transposada[MAX_ALCADA][MAX_AMPLADA];
-
 	invertirColumnes();
-
-	if (m_tipus == FIGURA_I) {
-		for (int i = 0; i < MAX_ALCADA; i++) {
-			for (int j = 0; j < MAX_AMPLADA; j++) {
-				transposada[j][i] = m_forma[i][j];
-			}
-		}
-	}
-
-	else {
-
-		for (int i = 0; i < MAX_ALCADA; i++) {
-			for (int j = 0; j < MAX_AMPLADA; j++) {
-				if (i < MAX_ALCADA - 1 && j < MAX_AMPLADA - 1)
-					transposada[j][i] = m_forma[i][j];
-
-				else
-					transposada[i][j] = COLOR_NEGRE;
-
-			}
-		}
-
-	}
-
-	for (int i = 0; i < MAX_AMPLADA; i++)
-	{
-		for (int j = 0; j < MAX_ALCADA; j++)
-		{
-			m_forma[i][j] = transposada[i][j];
-		}
-	}
+	transposaMatriu();
 }
 void Figura::turnAntiHorari()
 {
-	ColorFigura transposada[MAX_ALCADA][MAX_AMPLADA];
 
 	invertirFiles();
-
-	if (m_tipus == FIGURA_I) {
-		for (int i = 0; i < MAX_ALCADA; i++) {
-			for (int j = 0; j < MAX_AMPLADA; j++) {
-				transposada[j][i] = m_forma[i][j];
-			}
-		}
-	}
-
-	else {
-
-		for (int i = 0; i < MAX_ALCADA; i++) {
-			for (int j = 0; j < MAX_AMPLADA; j++) {
-				if (i < MAX_ALCADA - 1 && j < MAX_AMPLADA - 1)
-					transposada[j][i] = m_forma[i][j];
-
-				else
-					transposada[i][j] = COLOR_NEGRE;
-
-			}
-		}
-
-	}
-
-	for (int i = 0; i < MAX_AMPLADA; i++)
-	{
-		for (int j = 0; j < MAX_ALCADA; j++)
-		{
-			m_forma[i][j] = transposada[i][j];
-		}
-	}
+	transposaMatriu();
 }
+

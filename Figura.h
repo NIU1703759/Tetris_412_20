@@ -52,6 +52,7 @@ public:
 	void movUp();
 
 	//girs
+	void transposaMatriu();
 	void turnHorari();
 	void turnAntiHorari();
 	void invertirColumnes();
@@ -72,7 +73,7 @@ public:
 
 	//-- amplada + alcada--
 	int getAmplada(int& index_inici, int& index_final);
-	int getAlcada(int& alc_inici, int& alc_final);
+	int getAlcada();
 
 	//-- color , tipus i elements --
 	ColorFigura getColor() const { return m_color; };
