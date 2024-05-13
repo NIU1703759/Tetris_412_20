@@ -328,21 +328,6 @@ void Figura::invertirColumnes()
 			m_forma[i][j] = invertida[i][j];
 		}
 	}
-	/*ColorFigura temp;
-	int dim = MAX_ALCADA;
-
-	if (m_tipus != FIGURA_I)
-		dim = 3;
-
-	for (int i = 0; i < dim; i++)
-	{
-		for (int j = 0; j < dim; j++)
-		{
-			temp = m_forma[i][j];
-			m_forma[i][j] = m_forma[i][dim - 1 - j];
-			m_forma[i][dim - 1 - j] = temp;
-		}
-	}*/
 }
 void Figura::invertirFiles()
 {
@@ -380,20 +365,6 @@ void Figura::invertirFiles()
 			m_forma[i][j] = invertida[i][j];
 		}
 	}
-	/*ColorFigura temp;
-	int dim = MAX_ALCADA;
-
-	if (m_tipus != FIGURA_I)
-		dim = 3;
-	for (int j = 0; j < dim; j++)
-	{
-		for (int i = 0; i < dim; i++)
-		{
-			temp = m_forma[i][j];
-			m_forma[i][j] = m_forma[dim - 1 - i][j];
-			m_forma[dim - 1 - i][j] = temp;
-		}
-	}*/
 }
 void Figura::turnHorari()
 {
@@ -431,25 +402,6 @@ void Figura::turnHorari()
 			m_forma[i][j] = transposada[i][j];
 		}
 	}
-
-	/*ColorFigura temp;
-	int dim = MAX_ALCADA;
-
-	if (m_tipus != FIGURA_O)
-	{
-		if (m_tipus != FIGURA_I)
-			dim = 3;
-		for (int i = 0; i < dim; i++)
-		{
-			for (int j = i + 1; j < dim; j++)
-			{
-				temp = m_forma[j][i];
-				m_forma[j][i] = m_forma[i][j];
-				m_forma[i][j] = temp;
-			}
-		}
-		invertirColumnes();
-	}*/
 }
 void Figura::turnAntiHorari()
 {
@@ -487,23 +439,4 @@ void Figura::turnAntiHorari()
 			m_forma[i][j] = transposada[i][j];
 		}
 	}
-
-	/*ColorFigura temp;
-	int dim = MAX_ALCADA;
-
-	if (m_tipus != FIGURA_O)
-	{
-		if (m_tipus != FIGURA_I)
-			dim = 3;
-		for (int i = 0; i < dim; i++)
-		{
-			for (int j = i + 1; j < dim; j++)
-			{
-				temp = m_forma[j][i];
-				m_forma[j][i] = m_forma[i][j];
-				m_forma[i][j] = temp;
-			}
-		}
-		invertirFiles();
-	}*/
 }

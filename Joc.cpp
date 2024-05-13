@@ -231,3 +231,4 @@ int Joc::baixaFigura()//ultimos cambios
 
 	return files_completades;
 }
+

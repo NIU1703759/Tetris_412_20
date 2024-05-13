@@ -51,16 +51,6 @@ void Tauler::desaFigura(bool colisiona, Figura figura)
             }
             fila++;
         }
-        /*int index_inici = 0;
-        int index_final = 0;
-        int amplada = figura.getAmplada(index_inici, index_final);
-        for (int i = 0; i < MAX_ALCADA; i++)
-        {
-            for (int c = 0; c < MAX_AMPLADA; c++)
-            {
-                figura.setFigura(i, c, COLOR_NEGRE);
-            }
-        }*/
     }
 }
 
@@ -106,6 +96,22 @@ bool Tauler::inicialitzaTaulerTest(Tauler& auxiliar, Tauler& celaEsFigura, Figur
                 c++;
             }
             fila++;
+            i++;
+        }
+        //comprovacio sobreposicio en colocacio 
+        i = 0;
+        c = 0;
+        while (colocacio_valida && i < MAX_FILA)
+        {
+            c = 0;
+            while (colocacio_valida && c < MAX_COL)
+            {
+                if ((auxiliar.getTauler(i, c) != COLOR_NEGRE && celaEsFigura.getTauler(i, c) != COLOR_NEGRE) && (getTauler(i, c) != COLOR_NEGRE))
+                {
+                    colocacio_valida = false;
+                }
+                c++;
+            }
             i++;
         }
     }
@@ -198,31 +204,6 @@ bool Tauler::provocaXoc(Figura& figura, int moviment)
                 break;
             }
         }
-        else//comprovacio colisio
-        {
-            /*bool colisiona = false;
-            int f = 0;
-            int c = 0;
-
-            while (!colisiona && f < MAX_FILA)
-            {
-                c = 0;
-                while (!colisiona && c < MAX_COL)
-                {
-                    if (auxiliar.getTauler(f, c) != COLOR_NEGRE && celaEsFigura.getTauler(f, c) != COLOR_NEGRE && getTauler(f, c) == COLOR_NEGRE)
-                    {
-                        if (getTauler(f + 1, c) != COLOR_NEGRE)
-                        {
-                            colisiona = true;
-
-                        }
-                    }
-                    c++;
-                }
-                f++;
-            }
-            figura.setColocada(colisiona);*/
-        }
     }
     return xoc;
 }
@@ -266,7 +247,7 @@ bool Tauler::colisiona(Figura& figura)//ultimos cambios
                 f++;
             }
         }
-        if (provoca_xoc)
+        if (provoca_xoc || !colocacio_valida)
         {
             figura.movUp();
         }
