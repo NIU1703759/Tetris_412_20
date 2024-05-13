@@ -135,41 +135,6 @@ bool Joc::giraFigura(DireccioGir direccio)
 		xoc = m_tauler.provocaXoc(m_figura, -2);
 	}
 
-	//comprovacio xoc
-	/*if (direccio == GIR_HORARI)
-	{
-		m_figura.turnHorari();
-		if (m_tauler.dins(m_figura))
-		{
-			xoc = m_tauler.provocaXoc(m_figura);
-			if (xoc)
-			{
-				m_figura.turnAntiHorari();
-			}
-		}
-		else
-		{
-			xoc = true;
-			m_figura.turnAntiHorari();
-		}
-	}
-	if (direccio == GIR_ANTI_HORARI)
-	{
-		m_figura.turnAntiHorari();
-		if (m_tauler.dins(m_figura))
-		{
-			xoc = m_tauler.provocaXoc(m_figura);
-			if (xoc)
-			{
-				m_figura.turnHorari();
-			}
-		}
-		else
-		{
-			xoc = true;
-			m_figura.turnHorari();
-		}
-	}*/
 	return xoc;
 }
 bool Joc::mouFigura(int dirX)
@@ -177,41 +142,6 @@ bool Joc::mouFigura(int dirX)
 	bool ocupada = false;
 
 	ocupada = m_tauler.provocaXoc(m_figura, dirX);
-	/*if (dirX == 1)
-	{
-		m_figura.movRight();
-		if (m_tauler.dins(m_figura))
-		{
-			ocupada = (m_tauler.provocaXoc(m_figura));
-			if (ocupada)
-			{
-				m_figura.movLeft();
-			}
-		}
-		else
-		{
-			ocupada = true;
-			m_figura.movLeft();
-		}
-	}
-	else
-	{
-		m_figura.movLeft();
-		if (m_tauler.dins(m_figura))
-		{
-			ocupada = (m_tauler.provocaXoc(m_figura));
-			if (ocupada)
-			{
-				m_figura.movRight();
-			}
-		}
-		else
-		{
-			ocupada = true;
-			m_figura.movRight();
-		}
-	}*/
-
 
 	return ocupada;
 }
@@ -231,4 +161,3 @@ int Joc::baixaFigura()//ultimos cambios
 
 	return files_completades;
 }
-

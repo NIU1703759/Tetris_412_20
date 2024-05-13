@@ -70,8 +70,9 @@ public:
 	void setPosFRef(int pos) { m_posf_ref = pos; }
 	void setPosCRef(int pos) { m_posc_ref = pos; }
 
-	//-- amplada --
+	//-- amplada + alcada--
 	int getAmplada(int& index_inici, int& index_final);
+	int getAlcada(int& alc_inici, int& alc_final);
 
 	//-- color , tipus i elements --
 	ColorFigura getColor() const { return m_color; };

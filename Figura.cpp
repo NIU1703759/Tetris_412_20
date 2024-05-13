@@ -45,6 +45,36 @@ int Figura::getAmplada(int& index_inici, int& index_final)//retorna el num de co
 	index_final = index_max;
 	return amplada + 1;
 }
+int Figura::getAlcada(int& alc_inici, int& alc_final)
+{
+	int alcada = 0;
+	int index_min = MAX_ALCADA;
+	int index_max = 0;
+
+	for (int f = 0; f < MAX_ALCADA; f++)
+	{
+		for (int c = 0; c < MAX_AMPLADA; c++)
+		{
+			if (m_forma[f][c] != COLOR_NEGRE)
+			{
+				if (f < index_min)
+				{
+					index_min = f;
+				}
+				if (f > index_max)
+				{
+					index_max = f;
+				}
+			}
+		}
+	}
+
+	alcada = index_max - index_min;
+	alc_inici = index_min;
+	alc_final = index_max;
+
+	return alcada + 1;
+}
 void Figura::incialitzaFigura(TipusFigura tipus, ColorFigura color)
 {
 	switch (tipus)
@@ -97,6 +127,7 @@ void Figura::incialitzaFigura(TipusFigura tipus, ColorFigura color)
 		m_forma[3][3] = COLOR_NEGRE;
 
 		//EJE MOTRIZ + ref
+		m_posc++;
 
 		m_posf_ref = m_posf - 1;
 		m_posc_ref = m_posc - 2;

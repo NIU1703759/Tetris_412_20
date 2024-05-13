@@ -72,6 +72,10 @@ bool Tauler::inicialitzaTaulerTest(Tauler& auxiliar, Tauler& celaEsFigura, Figur
     int index_inici = 0;
     int index_final = 0;
     int amplada = figura.getAmplada(index_inici, index_final);
+    //------------------
+    int alc_inici = 0;
+    int alc_final = 0;
+    int alcada = figura.getAlcada(alc_inici, alc_final);
 
     //2n actualitzem els valor dels espais q pasarien a ser ocupats per la figura en el tauler
     int fila = 0;
@@ -79,7 +83,7 @@ bool Tauler::inicialitzaTaulerTest(Tauler& auxiliar, Tauler& celaEsFigura, Figur
     int i = figura.getPosFRef();
     int c = figura.getPosCRef();
 
-    if ((index_inici + c) >= 0 && (amplada + c) <= MAX_COL)//BUEN ARREGLO
+    if ((index_inici + c) >= 0 && (amplada + c) <= MAX_COL && (alcada + i) <= MAX_FILA)//BUEN ARREGLO
     {
         while (colocacio_valida && i < figura.getPosFRef() + MAX_ALCADA)
         {
