@@ -282,6 +282,17 @@ bool Tauler::colisiona(Figura& figura)//ultimos cambios
     return colisiona;
 }
 
+bool Tauler::baixaComplet(Figura& figura)
+{
+    bool baixa_complet = false;
+
+    while (!baixa_complet)
+    {
+        baixa_complet = colisiona(figura);
+    }
+
+    return baixa_complet;
+}
 
 //eliminar files
 int Tauler::contarBloquesEnFila(int fila)
@@ -341,5 +352,43 @@ void Tauler::desplazarFilasSuperiores(int fila)
     for (int j = 0; j < MAX_COL; j++)
     {
         m_tauler[0][j] = COLOR_NEGRE;
+    }
+}
+
+//SEGONA PART GRAFICA
+
+void Tauler::dibuixa(Figura figura)
+{
+    int index_inici = 0;
+    int index_final = 0;
+    int amplada = figura.getAmplada(index_inici, index_final);
+
+    int f = 0;
+    int c = 0;
+
+    for (int fila = 0; fila < MAX_FILA; fila++)
+    {
+        c = 0;
+        for (int col = 0; col < MAX_COL; col++)
+        {
+            if ((fila >= figura.getPosFRef() && fila < figura.getAlcada()) && (col >= figura.getPosCRef() && col < amplada))//esta dentro del rango de la matriz figura
+            {
+                if (figura.getFigura(f, c) != COLOR_NEGRE)
+                {
+                    figura.dibuixa(f, c);
+                }
+                else
+                {
+                    cout << m_tauler[fila][col];
+                }
+                c++;
+            }
+            else
+            {
+                cout << m_tauler[fila][col];
+            }
+        }
+        f++;
+        cout << endl;
     }
 }

@@ -3,6 +3,8 @@
 #include "Joc.h" 
 #include "Tauler.h"
 #include <fstream>
+#include "GraphicManager.h"
+
 //#include "windows.h"
 
 using namespace std;
@@ -45,54 +47,58 @@ using namespace std;
 //interaccio amb tauler
 void Joc::inicialitza(const string& nomFitxer)
 {
-	ifstream fitxer;
-
-	fitxer.open(nomFitxer);
-
-	if (fitxer.is_open())
+	if (nomFitxer != "")//CONCEPTUAL-->en caso de recibir nombre vacio (se ha de codificar desde clase partida) no leeara nada y se empezara de 0
 	{
-
 		ifstream fitxer;
-		TipusFigura tipus;
-		ColorFigura color, casillas;
-		int casillas_int;
 
 		fitxer.open(nomFitxer);
 
 		if (fitxer.is_open())
 		{
-			int tipus_int, fila, columna, gir;
 
-			//asignaació dels 4 primers valors corresponents a la figura inicial
-			fitxer >> tipus_int >> fila >> columna >> gir;
+			ifstream fitxer;
+			TipusFigura tipus;
+			ColorFigura color, casillas;
+			int casillas_int;
 
-			tipus = TipusFigura(tipus_int);
-			color = ColorFigura(tipus_int);
+			fitxer.open(nomFitxer);
 
-			//omplim figura
-			m_figura.setPosF(fila);
-			m_figura.setPosC(columna);
-			m_figura.incialitzaFigura(tipus, color);
-			m_figura.setColocada(false);
-			//ampliquem gir de la figura
-			for (int i = 0; i < gir % 4; i++)
+			if (fitxer.is_open())
 			{
-				m_figura.turnHorari();
-			}
+				int tipus_int, fila, columna, gir;
 
-			//escribim tauler (sense la figura)
-			for (int f = 0; f < MAX_FILA; f++)
-			{
-				for (int c = 0; c < MAX_COL; c++)
+				//asignaació dels 4 primers valors corresponents a la figura inicial
+				fitxer >> tipus_int >> fila >> columna >> gir;
+
+				tipus = TipusFigura(tipus_int);
+				color = ColorFigura(tipus_int);
+
+				//omplim figura
+				m_figura.setPosF(fila);
+				m_figura.setPosC(columna);
+				m_figura.incialitzaFigura(tipus, color);
+				m_figura.setColocada(false);
+				//ampliquem gir de la figura
+				for (int i = 0; i < gir % 4; i++)
 				{
-					fitxer >> casillas_int;
-					casillas = ColorFigura(casillas_int);
-					m_tauler.setTauler(f, c, casillas);
+					m_figura.turnHorari();
 				}
+
+				//escribim tauler (sense la figura)
+				for (int f = 0; f < MAX_FILA; f++)
+				{
+					for (int c = 0; c < MAX_COL; c++)
+					{
+						fitxer >> casillas_int;
+						casillas = ColorFigura(casillas_int);
+						m_tauler.setTauler(f, c, casillas);
+					}
+				}
+				fitxer.close();
 			}
-			fitxer.close();
 		}
 	}
+
 }
 void Joc::escriuTauler(const string& nomFitxer)
 {
@@ -145,7 +151,7 @@ bool Joc::mouFigura(int dirX)
 
 	return ocupada;
 }
-int Joc::baixaFigura()//ultimos cambios
+int Joc::baixaFigura()
 {
 	int files_completades = 0;
 	bool colisiona;
@@ -160,4 +166,39 @@ int Joc::baixaFigura()//ultimos cambios
 	files_completades = m_tauler.eliminaFila();
 
 	return files_completades;
+}
+int Joc::baixaComplet()
+{
+	int files_completades = 0;
+	bool arriba_fons;
+
+	//1er comprovar q arriba al fons del tauler
+	arriba_fons = m_tauler.baixaComplet(m_figura);
+
+	//2n desar el moviment si la figura colisiona
+	m_tauler.desaFigura(arriba_fons, m_figura);
+
+	//3er comprovar si es completa una fila y eliminarla
+	files_completades = m_tauler.eliminaFila();
+
+	return files_completades;
+}
+
+//partida
+void Joc::actualitza(double deltaTime)
+{
+	GraphicManager::getInstance()->drawSprite(GRAFIC_FONS, 0, 0, false);
+	GraphicManager::getInstance()->drawSprite(GRAFIC_TAULER, POS_X_TAULER, POS_Y_TAULER, false);
+	if (Keyboard_GetKeyTrg(KEYBOARD_RIGHT))
+		if (m_figura.getPosC() < N_COL_TAULER)
+			m_figura.movRight();
+	GraphicManager::getInstance()->drawSprite(GRAFIC_QUADRAT_GROC, POS_X_TAULER + (m_figura.getPosC() * MIDA_QUADRAT),
+		POS_Y_TAULER + ((m_figura.getPosF() - 1) * MIDA_QUADRAT), false);
+}
+
+//SEGONA PART GRAFICA
+
+void Joc::dibuixa()
+{
+	m_tauler.dibuixa(m_figura);
 }

@@ -3,18 +3,6 @@
 
 using namespace std;
 
-/*Figura::Figura(ColorFigura color, TipusFigura tipus)
-{
-	m_posf_ref = 0;
-	m_posc_ref = 0;
-	//??
-	m_posf = 2;
-	m_posc = 1;
-	m_tipus = tipus;
-	m_color = color;
-	incialitzaFigura(tipus, color);
-}*/
-
 //get+set d'atributs i inicialitzacio
 int Figura::getAmplada(int& index_inici, int& index_final)//retorna el num de columnes NO buides de la matriu figura
 {
@@ -97,6 +85,7 @@ void Figura::incialitzaFigura(TipusFigura tipus, ColorFigura color)
 		m_forma[3][3] = COLOR_NEGRE;
 
 		//EJE MOTRIZ + ref
+
 
 		m_posf_ref = m_posf - 1;
 		m_posc_ref = m_posc - 1;
@@ -278,9 +267,9 @@ void Figura::incialitzaFigura(TipusFigura tipus, ColorFigura color)
 		break;
 	}
 }
-Figura Figura::operator=(const Figura& f)
+/*Figura Figura::operator=(const Figura& f)
 {
-	Figura res;
+	Figura res{};
 	res.m_tipus = f.m_tipus;
 	res.m_color = f.m_color;
 	res.m_posf = f.m_posf;
@@ -296,7 +285,7 @@ Figura Figura::operator=(const Figura& f)
 		}
 	}
 	return res;
-}
+}*/
 
 //moviments basics
 void Figura::movRight()
@@ -443,4 +432,20 @@ void Figura::turnAntiHorari()
 	invertirFiles();
 	transposaMatriu();
 }
+
+//SEGONA PART GRAFICA
+void Figura::dibuixa(int fila, int columna)
+{
+	cout << m_forma[fila][columna];
+}
+Figura::Figura(ColorFigura color, TipusFigura tipus)
+{
+	m_posf_ref = 0;
+	m_posc_ref = 0;
+	m_posf = 2;
+	m_posc = 1;
+	m_tipus = tipus;
+	m_color = color;
+	incialitzaFigura(tipus, color);
+}//en caso de no incializar el juego en modo test, todas las figuras seran generadas de esta manera
 
