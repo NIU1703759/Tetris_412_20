@@ -42,6 +42,7 @@ class Figura
 public:
 	//costructor
 	Figura(ColorFigura color, TipusFigura tipus);
+	Figura();
 
 	//-------PRIMERA PART FUNCIONAL---------
 	//incialitzacio forma i atributs figura

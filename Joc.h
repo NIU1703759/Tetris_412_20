@@ -10,7 +10,7 @@ using namespace std;
 class Joc
 {
 public:
-	//Joc() {}
+	Joc();
 	//interaccio amb tauler
 	void inicialitza(const string& nomFitxer);
 	void escriuTauler(const string& nomFitxer);

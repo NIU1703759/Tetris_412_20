@@ -448,4 +448,14 @@ Figura::Figura(ColorFigura color, TipusFigura tipus)
 	m_color = color;
 	incialitzaFigura(tipus, color);
 }//en caso de no incializar el juego en modo test, todas las figuras seran generadas de esta manera
-
+Figura::Figura()
+{
+	for (int f = 0; f < MAX_ALCADA; f++)
+	{
+		for (int c = 0; c < MAX_AMPLADA; c++)
+		{
+			m_forma[f][c] = COLOR_NEGRE;
+		}
+	}
+	//falta inicializar resto de atributos
+}

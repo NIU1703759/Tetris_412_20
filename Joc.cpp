@@ -44,6 +44,18 @@ using namespace std;
 
 }*/
 
+//constructor
+Joc::Joc()
+{
+	for (int f = 0; f < MAX_FILA; f++)
+	{
+		for (int c = 0; c < MAX_COL; c++)
+		{
+			m_tauler.setTauler(f, c, COLOR_NEGRE);
+		}
+	}
+}
+
 //interaccio amb tauler
 void Joc::inicialitza(const string& nomFitxer)
 {
