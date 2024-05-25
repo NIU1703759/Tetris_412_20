@@ -4,6 +4,8 @@
 #include "Joc.h"
 #include "Tauler.h"
 #include "Figura.h"
+#include "NodeFigura.h"
+#include "NodeMoviment.h"
 
 Partida::Partida()
 {
@@ -20,11 +22,18 @@ Partida::Partida()
 }
 void Partida::incialitza(ModeJoc mode, const string& fitxerInicial, const string& fitxerFigures, const string& fitxerMoviments)
 {
+
     if (mode == MODE_TEST)//mode test
     {
+        //incialitzem el tauler i les llistes dinamiques
         m_joc.inicialitza(fitxerInicial);
 
-        //
+        NodeFigura* nodeFig = new NodeFigura();
+        m_llistaFigures.ompleLlista(fitxerFigures, nodeFig);
+
+        NodeMoviment* nodeMov = new NodeMoviment();
+        m_llistaMoviments.ompleLlista(fitxerFigures, nodeMov);
+
     }
     else
     {
@@ -44,7 +53,7 @@ void Partida::actualitza(double deltaTime)
     //          (GRAFIC_TAULER, POS_X_TAULER, POS_Y_TAULER, false)
 
 
-
+    m_joc.actualitza(deltaTime);
 
 
     //TODO 1.3: Dibuixar a pantalla el gràfic amb el tauler i un quadrat groc a la posició (2,3) del tauler
