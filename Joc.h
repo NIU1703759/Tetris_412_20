@@ -22,13 +22,14 @@ public:
 	int baixaComplet();
 
 	//partida
-	void actualitza(double deltaTime);
+
 	//EXTRA
 	//void capcelera();
 
 	//SEGONA PART GRAFICA
 	void dibuixa();
-	//void generaFigura();//No se puede conseguir lo mismo a traves del constructor de clase figura?, o esto se refiere a generarla en tablero?, aunq eso ya esta implementado
+	bool generaFigura();
+	void generaFiguraTest(Figura figura);
 private:
 	Tauler m_tauler;
 	Figura m_figura;

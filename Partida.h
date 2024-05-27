@@ -21,9 +21,20 @@ public:
         const string& fitxerMoviments);
 
     void actualitza(double deltaTime);
+    void actualitzaMov(double deltaTime);
+    void actualitzaMovTest(double deltaTime);
+    void actualitzaPuntuacio(int nFilesEliminades);
 
 private:
+    //atributs necessaris per a jugar
     double m_temps;
+    double m_velocitat;
+
+    //atributs visibles pel jugador
+    ModeJoc m_mode;
+    int m_punts;
+    int m_nivell;
+
     //Atributs necessaris només pels exemples d'utilització de la llibreria. 
     // S'hauran d'eliminar per la implementació del projecte
     static const int MIDA = 4;

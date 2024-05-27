@@ -197,20 +197,37 @@ int Joc::baixaComplet()
 }
 
 //partida
-void Joc::actualitza(double deltaTime)
-{
-	GraphicManager::getInstance()->drawSprite(GRAFIC_FONS, 0, 0, false);
-	GraphicManager::getInstance()->drawSprite(GRAFIC_TAULER, POS_X_TAULER, POS_Y_TAULER, false);
-	if (Keyboard_GetKeyTrg(KEYBOARD_RIGHT))
-		if (m_figura.getPosC() < N_COL_TAULER)
-			m_figura.movRight();
-	GraphicManager::getInstance()->drawSprite(GRAFIC_QUADRAT_GROC, POS_X_TAULER + (m_figura.getPosC() * MIDA_QUADRAT),
-		POS_Y_TAULER + ((m_figura.getPosF() - 1) * MIDA_QUADRAT), false);
-}
 
 //SEGONA PART GRAFICA
 
 void Joc::dibuixa()
 {
 	m_tauler.dibuixa(m_figura);
+}
+bool Joc::generaFigura()
+{
+	TipusFigura tipus = TipusFigura((rand() % N_FIGURES) + 1);
+	int limitC = MAX_COL - 2;
+	int gir = rand() % 4;
+
+	//generem colunma d'aparicio aleatoria y modifiquem les coord per referencia
+	int columna = (rand() % limitC) + 1;
+	Figura figura(ColorFigura(tipus), tipus, 1, columna);
+
+	m_figura = figura;
+
+	//apliquem girs
+	for (int i = 0; i < gir; i++)
+	{
+		m_figura.turnHorari();
+	}
+
+	//si colisiona significa que hem perdut la partida
+	bool colisiona = m_tauler.colisiona(m_figura);
+	return colisiona;
+}
+void Joc::generaFiguraTest(Figura figura)
+{
+	//com fem els girs abans d'inserir les figures a la llista només hem d'introduirles al joc
+	m_figura = figura;
 }

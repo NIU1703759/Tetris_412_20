@@ -1,5 +1,6 @@
 #include <iostream>
 #include "Figura.h"
+#include "GraphicManager.h"
 
 using namespace std;
 
@@ -267,7 +268,7 @@ void Figura::incialitzaFigura(TipusFigura tipus, ColorFigura color)
 		break;
 	}
 }
-/*Figura Figura::operator=(const Figura& f)
+Figura Figura::operator=(const Figura& f)
 {
 	Figura res{};
 	res.m_tipus = f.m_tipus;
@@ -285,7 +286,7 @@ void Figura::incialitzaFigura(TipusFigura tipus, ColorFigura color)
 		}
 	}
 	return res;
-}*/
+}
 
 //moviments basics
 void Figura::movRight()
@@ -436,14 +437,19 @@ void Figura::turnAntiHorari()
 //SEGONA PART GRAFICA
 void Figura::dibuixa(int fila, int columna)
 {
-	cout << m_forma[fila][columna];
+	//1ro selecionar color a dibujar
+	IMAGE_NAME color = IMAGE_NAME(m_color);
+	//PUEDE SER QUE GRAPHIC MANAGER DIBUJE DIRECTAMENTE EN TABLERO EN LA POSICION PUESTA POR PARAMETRO, 
+	//DE MANERA QUE SI YO PRINTEO LA POSICION PASADA POR PARAMETROS SEBOREESCRIBIRA OTRA POR ENCIMA?
+	//los parametros nos muestran directamente la posicion de la matriz figura a dibujar
+	GraphicManager::getInstance()->drawSprite(color, columna, fila, false);
 }
-Figura::Figura(ColorFigura color, TipusFigura tipus)
+Figura::Figura(ColorFigura color, TipusFigura tipus, int posf, int posc)
 {
 	m_posf_ref = 0;
 	m_posc_ref = 0;
-	m_posf = 2;
-	m_posc = 1;
+	m_posf = posf;
+	m_posc = posc;
 	m_tipus = tipus;
 	m_color = color;
 	incialitzaFigura(tipus, color);

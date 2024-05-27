@@ -1,6 +1,7 @@
 #include "Tauler.h"
 #include "Figura.h"
 #include <iostream>
+#include "GraphicManager.h"
 
 using namespace std;
 Tauler::Tauler()
@@ -158,9 +159,6 @@ bool Tauler::provocaXoc(Figura& figura, int moviment)
         }
 
         bool colocacio_valida = inicialitzaTaulerTest(auxiliar, celaEsFigura, figura);
-
-        auxiliar.mostraTauler();
-        cout << endl;
 
         //4rt comprovar colisions
         int f = 0;
@@ -366,6 +364,8 @@ void Tauler::dibuixa(Figura figura)
     int f = 0;
     int c = 0;
 
+    GraphicManager::getInstance()->drawSprite(GRAFIC_TAULER, POS_X_TAULER, POS_Y_TAULER, false);
+
     for (int fila = 0; fila < MAX_FILA; fila++)
     {
         c = 0;
@@ -375,17 +375,17 @@ void Tauler::dibuixa(Figura figura)
             {
                 if (figura.getFigura(f, c) != COLOR_NEGRE)
                 {
-                    figura.dibuixa(f, c);
+                    figura.dibuixa(fila, col);
                 }
                 else
                 {
-                    cout << m_tauler[fila][col];
+                    GraphicManager::getInstance()->drawSprite(IMAGE_NAME(m_tauler[fila][col]), col, fila, true);
                 }
                 c++;
             }
             else
             {
-                cout << m_tauler[fila][col];
+                GraphicManager::getInstance()->drawSprite(IMAGE_NAME(m_tauler[fila][col]), col, fila, true);
             }
         }
         f++;

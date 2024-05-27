@@ -3,6 +3,16 @@
 
 typedef enum
 {
+    MOVIMENT_ESQUERRA = 0,
+    MOVIMENT_DRETA = 1,
+    MOVIMENT_GIR_HORARI = 2,
+    MOVIMENT_GIR_ANTI_HORARI = 3,
+    MOVIMENT_BAIXA = 4,
+    MOVIMENT_BAIXA_FINAL = 5,
+} TipusMoviment;
+
+typedef enum
+{
     TECLA_ESQUERRA,
     TECLA_DRETA,
     TECLA_AMUNT,
@@ -60,5 +70,25 @@ const int N_COL_TAULER = 11;
 // Posició del tauler a la pantalla
 const int POS_X_TAULER = 120;
 const int POS_Y_TAULER = 100;
+
+//necessari per generacio espontania de figures
+const int N_FIGURES = 7;
+
+//Coord de missatges de joc
+const int POS_X_PUNTUACIO = 120;
+const int POS_Y_PUNTUACIO = 50;
+const int POS_X_NIVELL = 300;
+const int POS_Y_NIVELL = 50;
+const int POS_X_FINAL = 120;
+const int POS_Y_FINAL = 300;
+
+//sistema de puntuacio
+const int PUNTS_FIGURA = 10;
+const int PUNTS_FILA = 100;
+const int PUNTS_DOBLE_FILA = 150;
+const int PUNTS_TRIPLE_FILA = 175;
+const int PUNTS_TETRIS = 200;
+const int CANVI_NIVELL = 1500;
+const int CANVI_VELOCITAT = 0.5;
 
 #endif
