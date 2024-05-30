@@ -10,7 +10,7 @@
 
 using namespace std;
 
-Partida::Partida()
+/*Partida::Partida()
 {
     m_temps = 0;
     for (int i = 0; i < MIDA; i++)
@@ -22,7 +22,7 @@ Partida::Partida()
     m_forma[1][2] = COLOR_BLAUFOSC;
     m_fila = 1;
     m_columna = 5;
-}
+}*/
 void Partida::incialitza(ModeJoc mode, const string& fitxerInicial, const string& fitxerFigures, const string& fitxerMoviments)
 {
     mode = MODE_NORMAL;
@@ -227,4 +227,5 @@ void Partida::actualitzaPuntuacio(int nFilesEliminades)
         m_velocitat *= CANVI_VELOCITAT;
     }
 }
+
 

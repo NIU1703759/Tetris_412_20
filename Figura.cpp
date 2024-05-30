@@ -435,14 +435,64 @@ void Figura::turnAntiHorari()
 }
 
 //SEGONA PART GRAFICA
-void Figura::dibuixa(int fila, int columna)
+void Figura::dibuixa()
 {
 	//1ro selecionar color a dibujar
-	IMAGE_NAME color = IMAGE_NAME(m_color);
-	//PUEDE SER QUE GRAPHIC MANAGER DIBUJE DIRECTAMENTE EN TABLERO EN LA POSICION PUESTA POR PARAMETRO, 
-	//DE MANERA QUE SI YO PRINTEO LA POSICION PASADA POR PARAMETROS SEBOREESCRIBIRA OTRA POR ENCIMA?
-	//los parametros nos muestran directamente la posicion de la matriz figura a dibujar
-	GraphicManager::getInstance()->drawSprite(color, columna, fila, false);
+	//IMAGE_NAME color = IMAGE_NAME(m_color);
+	/*IMAGE_NAME color = GRAFIC_QUADRAT_BLAUCEL;
+
+	switch (m_color)
+	{
+	case COLOR_GROC:
+		color = GRAFIC_QUADRAT_GROC;
+		break;
+	case COLOR_BLAUCEL:
+		color = GRAFIC_QUADRAT_BLAUCEL;
+		break;
+	case COLOR_MAGENTA:
+		color = GRAFIC_QUADRAT_MAGENTA;
+		break;
+	case COLOR_TARONJA:
+		color = GRAFIC_QUADRAT_TARONJA;
+		break;
+	case COLOR_BLAUFOSC:
+		color = GRAFIC_QUADRAT_BLAUFOSC;
+		break;
+	case COLOR_VERMELL:
+		color = GRAFIC_QUADRAT_VERMELL;
+		break;
+	case COLOR_VERD:
+		color = GRAFIC_QUADRAT_VERD;
+		break;
+	}
+
+	int f = 0;
+	int c = 0;
+
+	for (int fila = m_posf_ref; fila < m_posf_ref + MAX_ALCADA; fila++)
+	{
+		c = 0;
+		for (int col = m_posc_ref; col < m_posc_ref + MAX_AMPLADA; col++)
+		{
+			if (m_forma[f][c] != COLOR_NEGRE)
+			{
+				GraphicManager::getInstance()->drawSprite(color, POS_X_TAULER + ((col + c) * MIDA_QUADRAT), POS_Y_TAULER + ((fila + f - 1) * MIDA_QUADRAT), false);
+			}
+			c++;
+		}
+		f++;
+	}*/
+	for (int fila = 0; fila < MAX_ALCADA; fila++)
+	{
+		for (int col = 0; col < MAX_AMPLADA; col++)
+		{
+			if (m_forma[fila][col] != COLOR_NEGRE)
+			{
+				dibuixaQuadrat(m_color, POS_X_TAULER + ((m_posc_ref + col) * MIDA_QUADRAT),
+					POS_Y_TAULER + ((m_posf_ref - 1 + fila) * MIDA_QUADRAT));
+			}
+		}
+	}
 }
 Figura::Figura(ColorFigura color, TipusFigura tipus, int posf, int posc)
 {
@@ -460,7 +510,7 @@ Figura::Figura()
 	{
 		for (int c = 0; c < MAX_AMPLADA; c++)
 		{
-			m_forma[f][c] = COLOR_NEGRE;
+			m_forma[f][c] = COLOR_GROC;
 		}
 	}
 	//falta inicializar resto de atributos

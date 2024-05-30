@@ -1,33 +1,7 @@
 #ifndef FIGURA_H
 #define FIGURA_H
 #include "InfoJoc.h"
-/*
-typedef enum
-{
-	COLOR_NEGRE = 0,
-	COLOR_GROC,
-	COLOR_BLAUCEL,
-	COLOR_MAGENTA,
-	COLOR_TARONJA,
-	COLOR_BLAUFOSC,
-	COLOR_VERMELL,
-	COLOR_VERD,
-	NO_COLOR
-} ColorFigura;
 
-
-typedef enum
-{
-	NO_FIGURA = 0,
-	FIGURA_O,
-	FIGURA_I,
-	FIGURA_T,
-	FIGURA_L,
-	FIGURA_J,
-	FIGURA_Z,
-	FIGURA_S,
-} TipusFigura;
-*/
 const int MAX_ALCADA = 4;
 const int MAX_AMPLADA = 4;
 
@@ -41,7 +15,7 @@ class Figura
 {
 public:
 	//costructor
-	Figura(ColorFigura color, TipusFigura tipus);
+	Figura(ColorFigura color, TipusFigura tipus, int posf, int posc);
 	Figura();
 
 	//-------PRIMERA PART FUNCIONAL---------
@@ -91,12 +65,12 @@ public:
 	void setColocada(bool colocada) { m_colocada = colocada; }
 	bool getColocada() { return m_colocada; }
 
-	//Figura operator=(const Figura& f);
+	Figura operator=(const Figura& f);
 
 	//--------------------------------------------
 
 	//------------SEGONA PART GRAFICA-------------
-	void dibuixa(int fila, int columna);
+	void dibuixa();
 
 private:
 	TipusFigura m_tipus;
@@ -108,14 +82,11 @@ private:
 	int m_posf_ref;
 	int m_posc_ref;
 
-	//int m_gir;
-
 	ColorFigura m_forma[MAX_ALCADA][MAX_AMPLADA];
-	//prueba
+
 	bool m_colocada;
 
 };
 
 
 #endif
-

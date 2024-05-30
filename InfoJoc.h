@@ -91,4 +91,6 @@ const int PUNTS_TETRIS = 200;
 const int CANVI_NIVELL = 1500;
 const int CANVI_VELOCITAT = 0.5;
 
+
 #endif
+void dibuixaQuadrat(ColorFigura color, int posX, int posY);

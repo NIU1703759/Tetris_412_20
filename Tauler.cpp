@@ -361,34 +361,23 @@ void Tauler::dibuixa(Figura figura)
     int index_final = 0;
     int amplada = figura.getAmplada(index_inici, index_final);
 
-    int f = 0;
-    int c = 0;
 
     GraphicManager::getInstance()->drawSprite(GRAFIC_TAULER, POS_X_TAULER, POS_Y_TAULER, false);
 
+
+
     for (int fila = 0; fila < MAX_FILA; fila++)
     {
-        c = 0;
         for (int col = 0; col < MAX_COL; col++)
         {
-            if ((fila >= figura.getPosFRef() && fila < figura.getAlcada()) && (col >= figura.getPosCRef() && col < amplada))//esta dentro del rango de la matriz figura
+            if (m_tauler[fila][col + 2] != COLOR_NEGRE)
             {
-                if (figura.getFigura(f, c) != COLOR_NEGRE)
-                {
-                    figura.dibuixa(fila, col);
-                }
-                else
-                {
-                    GraphicManager::getInstance()->drawSprite(IMAGE_NAME(m_tauler[fila][col]), col, fila, true);
-                }
-                c++;
+                dibuixaQuadrat(m_tauler[fila][col + 2], POS_X_TAULER + ((col + 1) * MIDA_QUADRAT),
+                    POS_Y_TAULER + (fila * MIDA_QUADRAT));
             }
-            else
-            {
-                GraphicManager::getInstance()->drawSprite(IMAGE_NAME(m_tauler[fila][col]), col, fila, true);
-            }
+
         }
-        f++;
-        cout << endl;
+
     }
+    //GraphicManager::getInstance()->drawSprite(IMAGE_NAME(m_tauler[fila][col + 2]), POS_X_TAULER + ((col + 1) * MIDA_QUADRAT), POS_Y_TAULER + (fila * MIDA_QUADRAT), true);
 }

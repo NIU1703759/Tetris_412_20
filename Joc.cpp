@@ -203,6 +203,7 @@ int Joc::baixaComplet()
 void Joc::dibuixa()
 {
 	m_tauler.dibuixa(m_figura);
+	//m_figura.dibuixa();
 }
 bool Joc::generaFigura()
 {
@@ -210,7 +211,7 @@ bool Joc::generaFigura()
 	int limitC = MAX_COL - 2;
 	int gir = rand() % 4;
 
-	//generem colunma d'aparicio aleatoria y modifiquem les coord per referencia
+	//generem colunma d'aparicio aleatoria i la figura
 	int columna = (rand() % limitC) + 1;
 	Figura figura(ColorFigura(tipus), tipus, 1, columna);
 
@@ -231,3 +232,5 @@ void Joc::generaFiguraTest(Figura figura)
 	//com fem els girs abans d'inserir les figures a la llista només hem d'introduirles al joc
 	m_figura = figura;
 }
+
+

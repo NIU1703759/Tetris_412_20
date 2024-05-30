@@ -16,11 +16,12 @@ void LlistaFigura::treu()
 		NodeFigura* aux = m_primer;
 
 		// Modificar apuntador al primer element (al seguent element)
+		//antes de nada hace falta comprovar que el primero no este vacio
+		//if(m_primer!=nullptr)
 		m_primer = m_primer->getNext();
 		// Alliberar el primer element(utilitzant l'apuntador auxiliar)
 		delete aux;
 	}
-
 }
 
 void LlistaFigura::afegeixElement(NodeFigura* node)

@@ -15,7 +15,7 @@ using namespace std;
 class Partida
 {
 public:
-    Partida();
+    //Partida();
 
     void incialitza(ModeJoc mode, const string& fitxerInicial, const string& fitxerFigures,
         const string& fitxerMoviments);
@@ -34,12 +34,6 @@ private:
     ModeJoc m_mode;
     int m_punts;
     int m_nivell;
-
-    //Atributs necessaris només pels exemples d'utilització de la llibreria. 
-    // S'hauran d'eliminar per la implementació del projecte
-    static const int MIDA = 4;
-    ColorFigura m_forma[MIDA][MIDA];
-    int m_fila, m_columna;
 
     //tauler i condicio de final
     Joc m_joc;

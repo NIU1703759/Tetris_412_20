@@ -16,7 +16,7 @@ public:
 	void treu();
 	void afegeixElement(NodeFigura* node);
 	void ompleLlista(const string& nomFitxer, NodeFigura*& primerElement);
-	bool esBuida() { return m_primer == nullptr; }
+	bool esBuida() { return m_primer == nullptr && m_ultim == nullptr; }
 
 	//getters i  setters
 	NodeFigura*& getPrimer() { return m_primer; }

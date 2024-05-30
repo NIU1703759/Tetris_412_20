@@ -14,7 +14,7 @@ public:
 	void treu();
 	void afegeixElement(NodeMoviment* node);
 	void ompleLlista(const string& nomFitxer, NodeMoviment*& primerElement);
-	bool esBuida() { return m_primer == nullptr; }
+	bool esBuida() { return m_primer == nullptr && m_ultim == nullptr; }
 
 	//getters i  setters
 	NodeMoviment*& getPrimer() { return m_primer; }
@@ -26,4 +26,3 @@ private:
 };
 
 #endif
-
