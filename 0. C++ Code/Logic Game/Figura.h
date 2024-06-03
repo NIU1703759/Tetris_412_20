@@ -65,8 +65,6 @@ public:
 	void setColocada(bool colocada) { m_colocada = colocada; }
 	bool getColocada() { return m_colocada; }
 
-	Figura operator=(const Figura& f);
-
 	//--------------------------------------------
 	
 	//------------SEGONA PART GRAFICA-------------

@@ -268,25 +268,6 @@ void Figura::incialitzaFigura(TipusFigura tipus, ColorFigura color)
 		break;
 	}
 }
-Figura Figura::operator=(const Figura& f)
-{
-	Figura res{};
-	res.m_tipus = f.m_tipus;
-	res.m_color = f.m_color;
-	res.m_posf = f.m_posf;
-	res.m_posc = f.m_posc;
-	res.m_posf_ref = f.m_posf_ref;
-	res.m_posc_ref = f.m_posc_ref;
-
-	for (int i = 0; i < MAX_AMPLADA; i++)
-	{
-		for (int j = 0; j < MAX_ALCADA; j++)
-		{
-			res.m_forma[i][j] = f.m_forma[i][j];
-		}
-	}
-	return res;
-}
 
 //moviments basics
 void Figura::movRight()
@@ -445,7 +426,7 @@ void Figura::dibuixa()
 			if (m_forma[fila][col] != COLOR_NEGRE)
 			{
 				//HE HECHO LA CORRECCION DEL DIBUJO AL CAER PIOLA
-				dibuixaQuadrat(m_color, POS_X_TAULER + ((m_posc_ref + col) * MIDA_QUADRAT),
+				dibuixaQuadrat(m_color, POS_X_TAULER + ((m_posc_ref + col+1) * MIDA_QUADRAT),
 					POS_Y_TAULER + ((m_posf_ref + fila) * MIDA_QUADRAT));
 			}
 		}

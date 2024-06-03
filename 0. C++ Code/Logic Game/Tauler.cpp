@@ -37,22 +37,20 @@ void Tauler::desaFigura(bool colisiona, Figura figura)
 {
     if (colisiona)
     {
-        int fila = 0;
-        int col = 0;
-        for (int f = figura.getPosFRef(); f < figura.getPosFRef() + MAX_ALCADA; f++)
+        int posFRef = figura.getPosFRef();
+        int posCref = figura.getPosCRef();
+
+
+        for (int i = 0; i < MAX_ALCADA; i++)
         {
-            col = 0;
-            for (int c = figura.getPosCRef(); c < figura.getPosCRef() + MAX_AMPLADA; c++)
+            for (int j = 0; j < MAX_AMPLADA; j++)
             {
-                if (figura.getFigura(fila, col) != COLOR_NEGRE)
-                {
-                    setTauler(f, c, figura.getFigura(fila, col));
-                }
-                col++;
+                if (figura.getFigura(i, j) != COLOR_NEGRE)
+                    setTauler(i + posFRef, j + posCref, figura.getFigura(i, j));
             }
-            fila++;
         }
     }
+
 }
 
 //comprovacio escenaris tauler
@@ -131,79 +129,48 @@ bool Tauler::dins(Figura figura,int& index_inici,int& index_final)
 
 bool Tauler::provocaXoc(Figura& figura,int moviment)
 {
-    //genera matriz auxiliar
-    
     bool xoc = false;
+    Figura newFigura = figura;
 
-    if (!figura.getColocada())
+    switch (moviment)
     {
-        Tauler auxiliar;
-        Tauler celaEsFigura;
-        //hacer cambios a figura
-        switch (moviment)
-        {
-        case 1://mou dreta
-            figura.movRight();
-            break;
-        case -1://mou esquerra
-            figura.movLeft();
-            break;
-        case 2:
-            figura.turnHorari();
-            break;
-        case -2:
-            figura.turnAntiHorari();
-            break;
-        default:
-            break;
-        }
-  
-        bool colocacio_valida = inicialitzaTaulerTest(auxiliar, celaEsFigura, figura);
+    case 1://mou dreta
+        newFigura.movRight();
+        break;
+    case -1://mou esquerra
+        newFigura.movLeft();
+        break;
+    case 2:
+        newFigura.turnHorari();
+        break;
+    case -2:
+        newFigura.turnAntiHorari();
+        break;
+    default:
+        break;
+    }
 
-        //4rt comprovar colisions
-        int f = 0;
-        int c = 0;
-        /*if (colocacio_valida)
-        {
-            while (!xoc && f < MAX_FILA)
-            {
-                while (!xoc && c < MAX_COL)
-                {
-                    if ((auxiliar.getTauler(f, c) != COLOR_NEGRE && celaEsFigura.getTauler(f, c) != COLOR_NEGRE) && (getTauler(f, c) != COLOR_NEGRE))//la posicio del tauler amb la figura girada correspon a la la figura girada, pero al tauler original aquesta posicio NO estava buida
-                    {
-                        xoc = true;
-                    }
-                    c++;
-                }
-                f++;
-            }
-        }
-        else
-        {
-            xoc = true;
-            cout << "AJO" << endl;
-        }*/
+    int i = 0, j = 0;
+    int posFref = newFigura.getPosFRef();
+    int posCRef = newFigura.getPosCRef();
 
-        if (!colocacio_valida)
+    while (i < MAX_ALCADA && !xoc)
+    {
+        j = 0;
+        while (j < MAX_AMPLADA && !xoc)
         {
-            switch (moviment)
+            if ((newFigura.getFigura(i, j) != COLOR_NEGRE && m_tauler[i + posFref][j + posCRef] != COLOR_NEGRE) || (j + posCRef + 1 > MAX_COL && newFigura.getFigura(i, j) != COLOR_NEGRE) || (j + posCRef < 0 && newFigura.getFigura(i, j) != COLOR_NEGRE))
             {
-            case 1://mou dreta
-                figura.movLeft();
-                break;
-            case -1://mou esquerra
-                figura.movRight();
-                break;
-            case 2:
-                figura.turnAntiHorari();
-                break;
-            case -2:
-                figura.turnHorari();
-                break;
-            default:
-                break;
+                xoc = true;
             }
+            j++;
         }
+        i++;
+    }
+    if (!xoc)
+    {
+        figura = newFigura;
+
     }
     return xoc;
 }
@@ -211,123 +178,35 @@ bool Tauler::provocaXoc(Figura& figura,int moviment)
 bool Tauler::colisiona(Figura& figura)//ultimos cambios
 {
     bool colisiona = false;
-    
-    if (!figura.getColocada())
+
+
+    Figura newFigura = figura;
+    newFigura.movDown();
+
+    int i = 0, j = 0;
+    int posFref = newFigura.getPosFRef();
+    int posCRef = newFigura.getPosCRef();
+
+    while (i < MAX_ALCADA && !colisiona)
     {
-
-        //modifiquem posicio figura per test
-        figura.movDown();
-        //genera matriz auxiliar
-        Tauler auxiliar;
-        Tauler celaEsFigura;
-
-        bool colocacio_valida = inicialitzaTaulerTest(auxiliar, celaEsFigura, figura);
-        bool provoca_xoc = provocaXoc(figura, 3);
-
-        //3er comprobar colision (!=sobreescribir casilla)
-        int f = 0;
-        int c = 0;
-
-        if (colocacio_valida && !provoca_xoc)
+        j = 0;
+        while (j < MAX_AMPLADA && !colisiona)
         {
-            while (!colisiona && f < MAX_FILA)
+            if ((newFigura.getFigura(i, j) != COLOR_NEGRE && m_tauler[i + posFref][j + posCRef] != COLOR_NEGRE) || (i + posFref > MAX_FILA - 1 && newFigura.getFigura(i, j) != COLOR_NEGRE))
             {
-                c = 0;
-                while (!colisiona && c < MAX_COL)
-                {
-                    if (auxiliar.getTauler(f, c) != COLOR_NEGRE && celaEsFigura.getTauler(f, c) != COLOR_NEGRE && getTauler(f, c) == COLOR_NEGRE)
-                    {
-                        if (getTauler(f + 1, c) != COLOR_NEGRE || f + 1 == MAX_FILA)
-                        {
-                            colisiona = true;
-
-                        }
-
-                    }
-                    c++;
-                }
-                f++;
+                colisiona = true;
             }
+            j++;
         }
-        if (provoca_xoc||!colocacio_valida)
-        {
-            figura.movUp();
-            f = 0;
-            c = 0;
-            if (provoca_xoc)
-            {
-                while (!colisiona && f < MAX_FILA)
-                {
-                    c = 0;
-                    while (!colisiona && c < MAX_COL)
-                    {
-                        if (auxiliar.getTauler(f, c) != COLOR_NEGRE && celaEsFigura.getTauler(f, c) != COLOR_NEGRE && getTauler(f, c) == COLOR_NEGRE)
-                        {
-                            if (getTauler(f + 1, c) != COLOR_NEGRE || f + 1 == MAX_FILA)
-                            {
-                                colisiona = true;
-
-                            }
-
-                        }
-                        c++;
-                    }
-                    f++;
-                }
-            }
-        }
-        figura.setColocada(colisiona);
-        //La figura colisiona cuando la posicion que le pertenece a la figura desplazada ya estaba ocupada en el tablero original
+        i++;
     }
-    /*Figura newfigura = figura;
+    if (!colisiona)
+    {
+        figura.movDown();
+    }
 
-    newfigura.movDown();
+    figura.setColocada(colisiona);
 
-    bool provoca_xoc = provocaXoc(newfigura, 3);
-
-    int fila = newfigura.getPosFRef(), col = newfigura.getPosCRef();
-
-    int f = 0;
-    int c = 0;
-
-    //if (!provoca_xoc)
-    //{
-        while (f < MAX_ALCADA && !colisiona)
-        {
-            while (c < MAX_COL && !colisiona)
-            {
-                if ((newfigura.getFigura(f, c) != COLOR_NEGRE && m_tauler[fila + f+1][col + c] != COLOR_NEGRE) || f + fila > MAX_FILA)
-                {
-                    colisiona = true;
-                }
-                c++;
-            }
-            f++;
-        }
-        if (!colisiona)
-        {
-            figura.movDown();
-        }
-        figura.setColocada(colisiona);
-        
-    //}
-    /*else
-    //{
-        newfigura.movUp();
-        while (f < MAX_ALCADA && !colisiona)
-        {
-            while (c < MAX_COL && !colisiona)
-            {
-                if ((newfigura.getFigura(f, c) != COLOR_NEGRE && m_tauler[fila + f + 1][col + c] != COLOR_NEGRE) || f + fila > MAX_FILA)
-                {
-                    colisiona = true;
-                }
-                c++;
-            }
-            f++;
-        }
-        figura.setColocada(colisiona);
-    //}*/
     return colisiona;
 }
 
@@ -417,7 +296,7 @@ void Tauler::dibuixa(Figura figura)
         {
             if (m_tauler[fila][col] != COLOR_NEGRE)
             {
-                dibuixaQuadrat(m_tauler[fila][col], POS_X_TAULER + ((col) * MIDA_QUADRAT),
+                dibuixaQuadrat(m_tauler[fila][col], POS_X_TAULER + ((col+1) * MIDA_QUADRAT),
                     POS_Y_TAULER + (fila * MIDA_QUADRAT));
             }
             /*if (col == 0 || col == 10 || fila == 0 || fila == 20)

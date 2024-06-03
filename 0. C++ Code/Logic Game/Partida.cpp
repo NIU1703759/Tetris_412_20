@@ -141,7 +141,7 @@ void Partida::actualitzaMov(double deltaTime)
     }
 
     //baixar figura
-    if (Keyboard_GetKeyTrg(KEYBOARD_ESCAPE))//MOVIMENT_BAIXA_FINAL
+    if (Keyboard_GetKeyTrg(KEYBOARD_SPACE))//MOVIMENT_BAIXA_FINAL
     {
         nFilesEliminades = m_joc.baixaComplet();
         actualitzaPuntuacio(nFilesEliminades);
