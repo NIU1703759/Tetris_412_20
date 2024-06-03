@@ -1,3 +1,9 @@
-﻿  main.cpp
+﻿  Partida.cpp
 C:\Users\exal5\Downloads\intro_llibreria_grafica (1)\intro_llibreria_grafica_estudiants\0. C++ Code\Logic Game\InfoJoc.h(92,29): warning C4244: 'inicializando': conversión de 'double' a 'int'; posible pérdida de datos
+C:\Users\exal5\Downloads\intro_llibreria_grafica (1)\intro_llibreria_grafica_estudiants\0. C++ Code\Logic Game\Partida.cpp(189,99): warning C4305: 'argumento': truncamiento de 'double' a 'float'
+C:\Users\exal5\Downloads\intro_llibreria_grafica (1)\intro_llibreria_grafica_estudiants\0. C++ Code\Logic Game\Partida.cpp(190,93): warning C4305: 'argumento': truncamiento de 'double' a 'float'
+C:\Users\exal5\Downloads\intro_llibreria_grafica (1)\intro_llibreria_grafica_estudiants\0. C++ Code\Logic Game\Partida.cpp(196,91): warning C4305: 'argumento': truncamiento de 'double' a 'float'
+  Tetris.cpp
+C:\Users\exal5\Downloads\intro_llibreria_grafica (1)\intro_llibreria_grafica_estudiants\0. C++ Code\Logic Game\InfoJoc.h(92,29): warning C4244: 'inicializando': conversión de 'double' a 'int'; posible pérdida de datos
+  Generando código...
   MP_Practica.vcxproj -> C:\Users\exal5\Downloads\intro_llibreria_grafica (1)\intro_llibreria_grafica_estudiants\2. Platforms\0. Windows Desktop\Program\MP_Practica.exe
