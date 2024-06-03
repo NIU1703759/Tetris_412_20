@@ -31,9 +31,6 @@
     <ClCompile Include="..\..\0. C++ Code\Graphic Lib\NFont\SDL_FontCache.cpp">
       <Filter>Graphic Lib\NFont</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\0. C++ Code\Logic Game\GraphicManager.cpp">
-      <Filter>Logic Game\Source files</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\0. C++ Code\Logic Game\Partida.cpp">
       <Filter>Logic Game\Source files</Filter>
     </ClCompile>
@@ -59,6 +56,9 @@
       <Filter>Logic Game\Source files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\0. C++ Code\Logic Game\InfoJoc.cpp">
+      <Filter>Logic Game\Source files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\0. C++ Code\Logic Game\GraphicManager.cpp">
       <Filter>Logic Game\Source files</Filter>
     </ClCompile>
   </ItemGroup>
