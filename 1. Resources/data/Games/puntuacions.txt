@@ -1,1 +1,4 @@
 AXEL 0
+AXEL 150
+LIDIA 260
+cebolla 340
