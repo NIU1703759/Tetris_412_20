@@ -1,4 +1,7 @@
+www 150
 AXEL 0
 AXEL 150
+Axel 200
 LIDIA 260
 cebolla 340
+q 200
