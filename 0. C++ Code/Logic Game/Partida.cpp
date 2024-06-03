@@ -192,7 +192,8 @@ void Partida::actualitza(double deltaTime)
     if (m_finalPartida)
     {
         //GraphicManager::getInstance()->drawSprite(GRAFIC_FONS, 0, 0, false);
-        GraphicManager::getInstance()->drawFont(FONT_RED_30, POS_X_FINAL, POS_Y_FINAL, 0.8, "GAME OVER");
+        GraphicManager::getInstance()->drawFont(FONT_RED_30, POS_X_FINAL, POS_Y_FINAL, 2.0, "GAME OVER");
+        GraphicManager::getInstance()->drawFont(FONT_RED_30, POS_X_FINAL, POS_Y_FINAL+60, 0.8, "- press ESC to continue... -");
     }
 }
 void Partida::actualitzaPuntuacio(int nFilesEliminades)

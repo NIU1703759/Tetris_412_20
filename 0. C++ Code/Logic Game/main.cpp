@@ -33,10 +33,12 @@
 #include <stdlib.h>
 #include <mmsystem.h>
 
+#pragma comment(lib,"winmm.lib")
+
 //EXTRA
 void capcelera()
 {
-    //PlaySound(TEXT("tetrih.wav"), NULL, SND_FILENAME | SND_ASYNC);
+    PlaySound("tetrih.wav", NULL, SND_FILENAME | SND_LOOP | SND_ASYNC);//TEXT("./0 C++ Code/Logic Game/tetrih.wav")
     system("Color 0a");
     cout << "     ============================================================================" << endl;
     Sleep(500);
@@ -67,7 +69,7 @@ void capcelera()
     system("cls");
     system("Color 0f");
     system("PAUSE");
-    //PlaySound(nullptr, nullptr, 0);
+    PlaySound(nullptr, nullptr, 0);
 
 }
 
@@ -120,9 +122,9 @@ int main(int argc, const char* argv[])
         {
         case'1':
 
-            //PlaySound(TEXT("tetrih juego.wav"), NULL, SND_FILENAME | SND_ASYNC);
+            PlaySound(TEXT("jogo.wav"), NULL, SND_FILENAME | SND_ASYNC);
             punts = tetris.juga(pantalla, MODE_NORMAL, "", "", "");
-            //PlaySound(nullptr, nullptr, 0);
+            PlaySound(nullptr, nullptr, 0);
             cout << "Insert Player Name: ";
             cin >> nomPlayer;
             tetris.actualitzaPunts(nomPlayer, punts);
@@ -133,9 +135,11 @@ int main(int argc, const char* argv[])
             punts = tetris.juga(pantalla, MODE_TEST, nomInici, nomFig, nomMov);
             break;
         case'3':
-            //PlaySound(TEXT("Wii.wav"), NULL, SND_FILENAME | SND_ASYNC);
+            PlaySound(TEXT("Wii.wav"), NULL, SND_FILENAME | SND_ASYNC);
             tetris.visualitzaPunts(); 
-            //PlaySound(nullptr, nullptr, 0);
+            system("PAUSE");
+            PlaySound(nullptr, nullptr, 0);
+            system("CLS");
             break;
         case'4':
             sortir = true;

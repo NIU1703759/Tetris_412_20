@@ -58,6 +58,7 @@ int Tetris::juga(Screen& pantalla, ModeJoc mode, const string& nomFitxerInicial,
 	int punts = game.getPunts();
 	//Instruccio necesaria per alliberar els recursos de la llibreria 
 	SDL_Quit();
+
 	return punts;
 }
 void Tetris::actualitzaPunts(const string& nom, int punts)
@@ -78,7 +79,7 @@ void Tetris::actualitzaPunts(const string& nom, int punts)
 	Puntuacio player;
 	player.nom = nom;
 	player.punts = punts;
-	m_puntuacions.insert(it, player);
+	m_puntuacions.push_back(player);
 }
 void Tetris::visualitzaPunts()
 {
@@ -88,7 +89,7 @@ void Tetris::visualitzaPunts()
 	cout << "=========================" << endl;
 	cout << "  TAULER DE PUNTUACIONS" << endl;
 	cout << "=========================" << endl;
-	while (it != m_puntuacions.end())
+	for (int i=0;i<3;i++)
 	{
 		cout << posicio << ".- " << it->nom << " --> " << it->punts << endl;
 		posicio++;
