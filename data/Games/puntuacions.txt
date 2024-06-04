@@ -1,8 +1,0 @@
-estamos 600
-flauta 500
-piedra 400
-kakakak 300
-bon 200
-pico 100
-osco 90
-324 60
