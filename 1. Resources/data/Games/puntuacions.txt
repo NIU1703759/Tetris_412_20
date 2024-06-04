@@ -1,7 +1,8 @@
-www 150
-AXEL 0
-AXEL 150
-Axel 200
-LIDIA 260
-cebolla 340
-q 200
+estamos 600
+flauta 500
+piedra 400
+kakakak 300
+bon 200
+pico 100
+osco 90
+324 60
