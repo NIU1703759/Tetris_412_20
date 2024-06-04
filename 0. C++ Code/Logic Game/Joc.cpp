@@ -170,6 +170,7 @@ void Joc::dibuixa()
 }
 bool Joc::generaFigura()
 {
+	srand((unsigned)time(NULL));
 	TipusFigura tipus = TipusFigura((rand() % N_FIGURES) + 1);
 	int limitC = MAX_COL - 2;
 	int gir = rand() % 4;

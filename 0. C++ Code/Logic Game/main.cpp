@@ -38,7 +38,7 @@
 //EXTRA
 void capcelera()
 {
-    PlaySound("tetrih.wav", NULL, SND_FILENAME | SND_LOOP | SND_ASYNC);//TEXT("./0 C++ Code/Logic Game/tetrih.wav")
+    //PlaySound("tetrih.wav", NULL, SND_FILENAME | SND_LOOP | SND_ASYNC);//TEXT("./0 C++ Code/Logic Game/tetrih.wav")
     system("Color 0a");
     cout << "     ============================================================================" << endl;
     Sleep(500);
@@ -122,7 +122,7 @@ int main(int argc, const char* argv[])
         {
         case'1':
 
-            PlaySound(TEXT("jogo.wav"), NULL, SND_FILENAME | SND_ASYNC);
+            //PlaySound(TEXT("jogo.wav"), NULL, SND_FILENAME | SND_ASYNC);
             punts = tetris.juga(pantalla, MODE_NORMAL, "", "", "");
             PlaySound(nullptr, nullptr, 0);
             cout << "Insert Player Name: ";

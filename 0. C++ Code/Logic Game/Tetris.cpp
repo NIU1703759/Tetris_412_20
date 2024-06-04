@@ -28,11 +28,11 @@ int Tetris::juga(Screen& pantalla, ModeJoc mode, const string& nomFitxerInicial,
 {
 	pantalla.show();
 
-	Partida game;
+	m_partida = Partida();
 
-	game.setMode(mode);
+	m_partida.setMode(mode);
 
-	game.incialitza("./data/Games/partida.txt", "./data/Games/figures.txt", "./data/Games/moviments.txt");
+	m_partida.incialitza("./data/Games/partida.txt", "./data/Games/figures.txt", "./data/Games/moviments.txt");
 
 	Uint64 NOW = SDL_GetPerformanceCounter();
 	Uint64 LAST = 0;
@@ -48,38 +48,49 @@ int Tetris::juga(Screen& pantalla, ModeJoc mode, const string& nomFitxerInicial,
 		// Captura tots els events de ratolí i teclat de l'ultim cicle
 		pantalla.processEvents();
 
-		game.actualitza(deltaTime);
+		m_partida.actualitza(deltaTime);
 
 		//Actualitza la pantalla
 		pantalla.update();
 
 	} while (!Keyboard_GetKeyTrg(KEYBOARD_ESCAPE));
 	// Sortim del bucle si pressionem ESC
-	int punts = game.getPunts();
+	int punts = m_partida.getPunts();
 	//Instruccio necesaria per alliberar els recursos de la llibreria 
-	SDL_Quit();
 
 	return punts;
 }
 void Tetris::actualitzaPunts(const string& nom, int punts)
 {
-	list<Puntuacio>::iterator it = m_puntuacions.begin();
-	bool trobat = false;
-	while (!trobat && (it != m_puntuacions.end()))
-	{
-		if (it->punts > punts)
-		{
-			trobat = true;
-		}
-		else
-		{
-			it++;
-		}
-	}
 	Puntuacio player;
 	player.nom = nom;
 	player.punts = punts;
-	m_puntuacions.push_back(player);
+	list<Puntuacio>::iterator it = m_puntuacions.begin();
+	bool trobat = false;
+
+	if (!m_puntuacions.empty())
+	{
+		while (!trobat && (it != m_puntuacions.end()))
+		{
+			if (it->punts < punts)
+			{
+				m_puntuacions.insert(it, player);
+				trobat = true;
+			}
+			else
+			{
+				it++;
+			}
+		}
+		if (m_puntuacions.size() == 11)
+		{
+			m_puntuacions.pop_back();
+		}
+	}
+	if (m_puntuacions.size() < 10 && !trobat)
+	{
+		m_puntuacions.push_back(player);
+	}
 }
 void Tetris::visualitzaPunts()
 {
@@ -89,7 +100,7 @@ void Tetris::visualitzaPunts()
 	cout << "=========================" << endl;
 	cout << "  TAULER DE PUNTUACIONS" << endl;
 	cout << "=========================" << endl;
-	for (int i=0;i<3;i++)
+	while(it!=m_puntuacions.end())
 	{
 		cout << posicio << ".- " << it->nom << " --> " << it->punts << endl;
 		posicio++;

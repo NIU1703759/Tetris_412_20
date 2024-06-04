@@ -28,6 +28,8 @@ public:
     int getPunts() { return m_punts; }
     void setMode(ModeJoc mode) { m_mode = mode; }
 
+    void setFinal(bool valor) { m_finalPartida = valor; }
+
 private:
     //atributs necessaris per a jugar
     double m_temps;
